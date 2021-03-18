@@ -1,25 +1,17 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+const boardFactory = require('./utils/board_factory/board_factory');
+const shipFactory = require('./utils/ship_factory/ship_factory');
 
-function App() {
+export const App = () => {
+  const [ board, setBoard ] = useState(() => boardFactory());
+  const [ Carrier, setCarrier ] = useState(() => shipFactory('Carrier'));
+  const [ Battleship, setBattleship ] = useState(() => shipFactory('Battleship'));
+  const [ Cruiser, setCruiser ] = useState(() => shipFactory('Cruiser'));
+  const [ Submarine, setSubmarine ] = useState(() => shipFactory('Submarine'));
+  const [ Destroyer, setDestroyer ] = useState(() => shipFactory('Destroyer'));
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>whatever</h1>
     </div>
   );
-}
-
-export default App;
+};
