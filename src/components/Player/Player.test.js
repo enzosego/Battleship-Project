@@ -1,1 +1,7 @@
-test('', () => expect(1).toBe(1));
+import { render } from "@testing-library/react";
+import { Player } from "./Player";
+
+test('Player board render correctly', () => {
+  const { getByText } = render(<Player />);
+  getByText('Player');
+})
