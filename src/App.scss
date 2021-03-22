@@ -1,0 +1,38 @@
+* {
+  padding: 0;
+  margin: 0;
+  -webkit-box-sizing: 0;
+      -moz-box-sizing: 0;
+          box-sizing: 0;
+}
+
+body {
+}
+
+.board-grid {
+  margin: auto;
+  width: 600px;
+  height: 600px;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-gap: 0;
+}
+
+.tile {
+  border: 1px solid black;
+}
+
+.ship {
+  background: green;
+
+  &--hit {
+  background: orange;
+  }
+
+  &--destroyed {
+  background: red;
+  }
+}
+
+
+

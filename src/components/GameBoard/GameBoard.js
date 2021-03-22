@@ -14,6 +14,7 @@ const shipNamesArray = {
 export const GameBoard = () => {
   const [ playerBoard, setPlayerBoard ] = useState(() => boardFactory());
   const [ computerBoard, setComputerBoard ] = useState(() => boardFactory());
+  const [ computerAttacks, setComputerAttacks ] = useState(() => []);
   const [ shipCount, setShipCount ] = useState(1);
   const [ turn, setTurn ] = useState("player");
 
@@ -21,12 +22,19 @@ export const GameBoard = () => {
     if (shipCount == 6) setShipCount(1);
   }, [shipCount])
 
-  const addShipToBoard = (coordinates, board) => {
-    const updatedBoard = {...board};
-    updatedBoard.addShipToBoard(coordinates ,shipNamesArray[shipCount]);
-    board == playerBoard
-      ? setPlayerBoard(updatedBoard)
-      : setComputerBoard(updatedBoard);
+  useEffect(() => {
+    if (turn === "computer") {
+
+    }
+  }, [turn])
+
+  const addShipToBoard = () => {
+    const updatedBoard = {...playerBoard};
+    updatedBoard.addShipToBoard(shipCount*10 ,shipNamesArray[shipCount]);
+    //board == playerBoard
+    //  ? setPlayerBoard(updatedBoard)
+    //  : setComputerBoard(updatedBoard);
+    setPlayerBoard(updatedBoard);
     setShipCount(prevValue => prevValue+=1)
   }
 
@@ -36,14 +44,10 @@ export const GameBoard = () => {
     <section className="game-board">
       <Player 
         playerBoard={playerBoard}
-        addShipToBoard={addShipToBoard}
-        turn={turn}
-        switchTurn={switchTurn}/>
+        addShipToBoard={addShipToBoard}/>
       <Computer 
         computerBoard={computerBoard}
-        addShipToBoard={addShipToBoard}
-        turn={turn}
-        switchTurn={switchTurn}/>
+        addShipToBoard={addShipToBoard}/>
     </section>
     )
 }
