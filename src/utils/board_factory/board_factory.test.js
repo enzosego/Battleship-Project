@@ -395,7 +395,7 @@ test("Computer board gets randomly generated", () => {
   let count = 0;
   newBoard.board.forEach(tile => 
     tile !== "" ? count++ : "");
-  expect(count).not.toEqual(0);
+  expect(count > 40).toBe(true);
 })
 
 // testing Computer attacks
@@ -403,15 +403,125 @@ test("Computer board gets randomly generated", () => {
 test("Computer launches random attack", () => {
   const newBoard = boardFactory();
   newBoard.addShipToBoard(2, "Cruiser");
-  newBoard.computerRandomAttack();
-  newBoard.computerRandomAttack();
-  newBoard.computerRandomAttack();
-  newBoard.computerRandomAttack();
-  newBoard.computerRandomAttack();
-  newBoard.computerRandomAttack();
-  newBoard.computerRandomAttack();
-  newBoard.computerRandomAttack();
-  newBoard.computerRandomAttack();
+  newBoard.computerAttack();
+  newBoard.computerAttack();
+  newBoard.computerAttack();
+  newBoard.computerAttack();
   expect(newBoard.positionsAttacked).not.toEqual([]);
 })
 
+test("Computer focuses on a single ship after hitting it --- Carrier", () => {
+  const newBoard = boardFactory();
+  const {
+    addShipToBoard, recieveAttack,
+    computerAttack, changeShipDirection,
+    shipsOnBoard
+  } = newBoard;
+  addShipToBoard(55, "Carrier");
+  addShipToBoard(11, "Battleship")
+  changeShipDirection();
+  addShipToBoard(18, "Cruiser");
+  addShipToBoard(77, "Submarine")
+  addShipToBoard(72, "Destroyer")
+  recieveAttack(55);
+  for (let i = 0; i < 10; i++) 
+    computerAttack();
+  const isCarrierSunk = shipsOnBoard["Carrier"].isSunk;
+  expect(isCarrierSunk).toBe(true);
+})
+
+test("Computer focuses on a single ship after hitting it --- Battleship", () => {
+  const newBoard = boardFactory();
+  const {
+    addShipToBoard, recieveAttack,
+    computerAttack, changeShipDirection,
+    shipsOnBoard
+  } = newBoard;
+  addShipToBoard(55, "Carrier");
+  addShipToBoard(11, "Battleship")
+  changeShipDirection();
+  addShipToBoard(18, "Cruiser");
+  addShipToBoard(77, "Submarine")
+  addShipToBoard(72, "Destroyer")
+  recieveAttack(13);
+  for (let i = 0; i < 10; i++) 
+    computerAttack();
+  console.log(newBoard.board);
+  const isBattleshipSunk = shipsOnBoard["Battleship"].isSunk;
+  expect(isBattleshipSunk).toBe(true);
+})
+
+test("Computer focuses on a single ship after hitting it --- Cruiser", () => {
+  const newBoard = boardFactory();
+  const {
+    addShipToBoard, recieveAttack,
+    computerAttack, changeShipDirection,
+    shipsOnBoard
+  } = newBoard;
+  addShipToBoard(11, "Battleship")
+  addShipToBoard(55, "Carrier");
+  changeShipDirection();
+  addShipToBoard(18, "Cruiser");
+  addShipToBoard(77, "Submarine")
+  addShipToBoard(72, "Destroyer")
+  recieveAttack(38);
+  for (let i = 0; i < 10; i++) 
+    computerAttack();
+  const isCruiserSunk = shipsOnBoard["Cruiser"].isSunk;
+  expect(isCruiserSunk).toBe(true);
+})
+
+test("Computer focuses on a single ship after hitting it --- Submarine", () => {
+  const newBoard = boardFactory();
+  const {
+    addShipToBoard, recieveAttack,
+    computerAttack, changeShipDirection,
+    shipsOnBoard
+  } = newBoard;
+  addShipToBoard(55, "Carrier");
+  addShipToBoard(11, "Battleship")
+  changeShipDirection();
+  addShipToBoard(18, "Cruiser");
+  addShipToBoard(77, "Submarine")
+  addShipToBoard(72, "Destroyer")
+  recieveAttack(77);
+  for (let i = 0; i < 10; i++) 
+    computerAttack();
+  const isSubmarineSunk = shipsOnBoard["Submarine"].isSunk;
+  expect(isSubmarineSunk).toBe(true);
+})
+
+test("Computer focuses on a single ship after hitting it --- Destroyer", () => {
+  const newBoard = boardFactory();
+  const {
+    addShipToBoard, recieveAttack,
+    computerAttack, changeShipDirection,
+    shipsOnBoard
+  } = newBoard;
+  addShipToBoard(55, "Carrier");
+  addShipToBoard(11, "Battleship")
+  changeShipDirection();
+  addShipToBoard(18, "Cruiser");
+  addShipToBoard(77, "Submarine")
+  addShipToBoard(72, "Destroyer")
+  recieveAttack(82);
+  for (let i = 0; i < 10; i++) 
+    computerAttack();
+  const isDestroyerSunk = shipsOnBoard["Destroyer"].isSunk;
+  expect(isDestroyerSunk).toBe(true);
+})
+
+test("The board receives 100 hits with no error", () => {
+  const newBoard = boardFactory();
+  const {
+    computerAttack,
+    randomlyAddShips
+  } = newBoard;
+  let attackCount = 0;
+  randomlyAddShips();
+  for (let i = 0; i < 100; i++) {
+    computerAttack();
+    attackCount++
+  }
+  expect(attackCount).toEqual(100);
+})
