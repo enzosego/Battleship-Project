@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Player } from "../Player/Player";
 import { Computer } from "../Computer/Computer";
-const boardFactory = require('../../utils/board_factory/board_factory');
+const playerBoardFactory = require('../../utils/player_board_factory/player_board_factory');
+const computerBoardFactory = require('../../utils/computer_board_factory/computer_board_factory');
 
 const shipNamesArray = {
   1: "Carrier",
@@ -12,8 +13,8 @@ const shipNamesArray = {
 }
 
 export const GameBoard = () => {
-  const [ playerBoard, setPlayerBoard ] = useState(() => boardFactory());
-  const [ computerBoard, setComputerBoard ] = useState(() => boardFactory());
+  const [ playerBoard, setPlayerBoard ] = useState(() => playerBoardFactory());
+  const [ computerBoard, setComputerBoard ] = useState(() => computerBoardFactory());
   const [ computerAttacks, setComputerAttacks ] = useState(() => []);
   const [ shipCount, setShipCount ] = useState(1);
   const [ turn, setTurn ] = useState("player");

@@ -15,7 +15,7 @@ const pushingShipsOnBoard = () => {
   };
 }
 
-const boardFactory = () => {
+const computerBoardFactory = () => {
   let board = [
     '', '', '', '', '', '', '', '', '', '',
     '', '', '', '', '', '', '', '', '', '',
@@ -96,18 +96,6 @@ const boardFactory = () => {
     }
   }
 
-  const setShipAsDestroyed = (shipName) => {
-    let count = 0;
-    for (let i = 0; i < obj.board.length; i++) {
-      if (count >= obj.shipsOnBoard[shipName].length) break;
-      if (board[i].includes(shipName)) {
-        board[i] = board[i].slice(0, -3);
-        board[i] += "destroyed";
-        count++;
-      }
-    }
-  }
-
   let isBattleLost = false;
   const checkingForDefeat = () => {
     let sunkShipsCount = 0;
@@ -183,17 +171,118 @@ const boardFactory = () => {
     addIndividualShip("Destroyer");
   }
 
+  const setShipAsDestroyed = (shipName) => {
+    let {
+      board, shipsOnBoard,
+      attackedPositions
+    } = obj;
+    const shipLength = shipsOnBoard[shipName].length;
+    const startIndex = board.indexOf(
+      board.find(tile => tile.includes(`${shipName}1`))
+    );
+    if (shipsOnBoard[shipName].axis === "X") {
+      if (startIndex % 10 != 0) {
+        board[startIndex-1] = "null-sunk";
+        if (!attackedPositions.includes(startIndex-1))
+          attackedPositions.push(startIndex-1);
+        if (startIndex-11 >= 0) {
+          board[startIndex-11] = "null-sunk";
+          if (!attackedPositions.includes(startIndex-11))
+            attackedPositions.push(startIndex-11);
+        }
+        if(startIndex+9 < 100) {
+          board[startIndex+9] = "null-sunk";
+          if (!attackedPositions.includes(startIndex+9))
+            attackedPositions.push(startIndex+9);
+        }
+      }
+      if (startIndex+shipLength % 10 != 0) {
+        board[startIndex+shipLength] = "null-sunk";
+        if (!attackedPositions.includes(startIndex+shipLength))
+          attackedPositions.push(startIndex+shipLength);
+        if (startIndex+shipLength-10 >= 0) {
+          board[startIndex+shipLength-10] = "null-sunk"
+          if (!attackedPositions.includes(startIndex+shipLength-10))
+            attackedPositions.push(startIndex+shipLength-10);
+        }
+        if (startIndex+shipLength+10 < 100) {
+          board[startIndex+shipLength+10] = "null-sunk"
+          if (!attackedPositions.includes(startIndex+shipLength+10))
+            attackedPositions.push(startIndex+shipLength+10);
+        }
+      }
+
+      for (let i = startIndex; i < startIndex + shipLength; i++) {
+        board[i] = board[i].slice(0, -3);
+        board[i] += "destroyed";
+        if (i+10 < 100) {
+          board[i+10] = "null-sunk";
+          if (!attackedPositions.includes(i+10))
+            attackedPositions.push(i+10);
+        }
+        if (i-10 >= 0) {
+          board[i-10] = "null-sunk";
+          if (!attackedPositions.includes(i-10))
+            attackedPositions.push(i-10);
+        }
+      }
+    }
+    else {
+      if (startIndex-10 >= 0) {
+        board[startIndex-10] = "null-sunk";
+        if (!attackedPositions.includes(startIndex-10))
+          attackedPositions.push(startIndex-10);
+        if (startIndex % 10 != 0) {
+          board[startIndex-11] = "null-sunk";
+          if (!attackedPositions.includes(startIndex-11))
+            attackedPositions.push(startIndex-11);
+        }
+        if(startIndex-9 % 10 != 0) {
+          board[startIndex-9] = "null-sunk";
+          if (!attackedPositions.includes(startIndex-9))
+            attackedPositions.push(startIndex-9);
+        }
+      }
+      if (startIndex+(shipLength*10) < 100) {
+        board[startIndex+(shipLength*10)] = "null-sunk";
+        if (!attackedPositions.includes(startIndex+(shipLength*10)))
+          attackedPositions.push(startIndex+(shipLength*10));
+        if (startIndex % 10 != 0) {
+          board[startIndex+(shipLength*10)-1] = "null-sunk"
+          if (!attackedPositions.includes(startIndex+(shipLength*10)-1))
+            attackedPositions.push(startIndex+(shipLength*10)-1);
+        }
+        if (startIndex-9 % 10 != 0) {
+          board[startIndex+(shipLength*10)+1] = "null-sunk"
+          if (!attackedPositions.includes(startIndex+(shipLength*10)+1))
+            attackedPositions.push(startIndex+(shipLength*10)+1);
+        }
+      }
+
+      for (let i = startIndex; i < startIndex + (shipLength*10); i+=10) {
+        board[i] = board[i].slice(0, -3);
+        board[i] += "destroyed";
+        if (i-9 % 10 != 10) {
+          board[i+1] = "null-sunk";
+          if (!attackedPositions.includes(i+1))
+            attackedPositions.push(i+1);
+        }
+        if (i % 10 != 0) {
+          board[i-1] = "null-sunk";
+          if (!attackedPositions.includes(i-1))
+            attackedPositions.push(i-1);
+        }
+      }
+    }
+  }
+
   let attackedPositions = [];
-  let lastHitIndex;
-  let shipToDestroy = "";
-  let posiblePositions = [];
 
   const recieveAttack = (coordinate) => {
     let { 
       board, shipsOnBoard,
       attackedPositions
     } = obj;
-    attackedPositions.push(coordinate);
     const tileAttacked = board[coordinate];
     if (tileAttacked === '') 
       board[coordinate] = 'miss';  
@@ -203,84 +292,10 @@ const boardFactory = () => {
       const shipName = tileAttacked.slice(0, -1);
       shipsOnBoard[shipName].addHit();
       board[coordinate] += '-hit';
-      if (shipsOnBoard[shipName].isSunk) {
+      if (shipsOnBoard[shipName].isSunk) 
         setShipAsDestroyed(shipName);
-        obj.shipToDestroy = "";
-      }
-      else {
-        obj.lastHitIndex = coordinate;
-        obj.shipToDestroy = shipName;
-      }
     }
-    obj.posiblePositions = [];
-  }
-
-  const computerRandomAttack = () => {
-    const { recieveAttack, attackedPositions } = obj;
-    let newCoordinate = 
-      pickRandomCoordinate();
-    while (attackedPositions.includes(newCoordinate)) 
-      newCoordinate  = pickRandomCoordinate();
-    recieveAttack(newCoordinate);
-  }
-
-  const checkPositionsBeforeAttack = () => {
-    let { board, lastHitIndex,
-      shipToDestroy, shipsOnBoard,
-      attackedPositions, posiblePositions
-    } = obj;
-
-    if (shipsOnBoard[shipToDestroy].hits > 1) {
-      const startIndex = board.indexOf(
-        board.find(tile => tile.includes(`${shipToDestroy}1`))
-      );
-      const shipLength = shipsOnBoard[shipToDestroy].length;
-      if (shipsOnBoard[shipToDestroy].axis == "X") {
-        for (let i = startIndex; i < startIndex+shipLength && i < 100; i++) 
-          if (!attackedPositions.includes(i) && board[i] !== "") 
-            posiblePositions.push(i);
-        for (let i = startIndex; i > startIndex-shipLength && i > -1; i--) 
-          if (!attackedPositions.includes(i) && board[i] !== "") 
-            posiblePositions.push(i);
-      }
-      else {
-        for (let i = startIndex; i < startIndex+(shipLength*10) && i < 100; i+=10) 
-          if (!attackedPositions.includes(i) && board[i] !== "") 
-            posiblePositions.push(i);
-        for (let i = startIndex; i < startIndex-(shipLength*10) && i > -1; i-=10) 
-          if (!attackedPositions.includes(i) && board[i] !== "") 
-            posiblePositions.push(i);
-      }
-      return;
-    }
-
-    if (lastHitIndex+10 < 100)
-      if (!attackedPositions.includes(lastHitIndex+10)) 
-        posiblePositions.push(lastHitIndex+10);
-    if (lastHitIndex-10 >= 0)
-      if (!attackedPositions.includes(lastHitIndex-10)) 
-        posiblePositions.push(lastHitIndex-10);
-    if (lastHitIndex+1 < 100 && lastHitIndex-9 % 10 !== 0)
-      if (!attackedPositions.includes(lastHitIndex+1)) 
-        posiblePositions.push(lastHitIndex+1);
-    if (lastHitIndex-1 >= 0 && lastHitIndex % 10 !== 0)
-      if (!attackedPositions.includes(lastHitIndex-1)) 
-        posiblePositions.push(lastHitIndex-1);
-  }
-
-  const computerSentientAttack = () => {
-    let { recieveAttack, posiblePositions } = obj;
-    checkPositionsBeforeAttack();
-    const randomIndex = Math.floor(Math.random() * posiblePositions.length);
-    recieveAttack(posiblePositions[randomIndex]);
-  }
-
-  const computerAttack = () => {
-    let { shipToDestroy } = obj;
-    if (shipToDestroy === "") 
-      computerRandomAttack();
-    else 
-      computerSentientAttack();
+    attackedPositions.push(coordinate);
   }
 
   const obj = { 
@@ -295,13 +310,8 @@ const boardFactory = () => {
     randomlyAddShips,
     checkAvailableSpaces,
     attackedPositions,
-    lastHitIndex,
-    posiblePositions,
-    shipToDestroy,
-    computerRandomAttack,
-    computerAttack
   };
   return obj;
 }
 
-module.exports = boardFactory;
+module.exports = computerBoardFactory;
