@@ -458,8 +458,8 @@ test("Battle is lost when all ships are taken down, ", () => {
   newBoard.shipsOnBoard.Cruiser.addHit();
   newBoard.shipsOnBoard.Destroyer.addHit();
   newBoard.shipsOnBoard.Destroyer.addHit();
-  newBoard.checkingForDefeat();
-  expect(newBoard.isBattleLost).toBe(true);
+  const isBattleLost = newBoard.checkingForDefeat();
+  expect(isBattleLost).toBe(true);
 })
 
 test("Available spaces get checked correctly - 1", () => {

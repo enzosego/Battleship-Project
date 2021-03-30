@@ -96,14 +96,14 @@ const computerBoardFactory = () => {
     }
   }
 
-  let isBattleLost = false;
   const checkingForDefeat = () => {
     let sunkShipsCount = 0;
     for (const [key, ship] of Object.entries(obj.shipsOnBoard)) 
       if (ship.isSunk) 
         sunkShipsCount++;
     if (sunkShipsCount >= 5) 
-      obj.isBattleLost = true;
+      return true;
+    return false;
   }
 
   const checkAvailableSpaces = (shipName) => {
@@ -304,7 +304,6 @@ const computerBoardFactory = () => {
     shipsOnBoard, 
     recieveAttack,
     addShipToBoard,
-    isBattleLost,
     checkingForDefeat,
     verticalShip,
     changeShipDirection,

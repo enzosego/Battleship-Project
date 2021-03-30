@@ -459,7 +459,8 @@ test("Battle is lost when all ships are taken down, ", () => {
   newBoard.shipsOnBoard.Destroyer.addHit();
   newBoard.shipsOnBoard.Destroyer.addHit();
   newBoard.checkingForDefeat();
-  expect(newBoard.isBattleLost).toBe(true);
+  const isBattleLost = newBoard.checkingForDefeat();
+  expect(isBattleLost).toBe(true);
 })
 
 // testing Computer attacks
