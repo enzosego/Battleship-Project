@@ -283,6 +283,7 @@ const computerBoardFactory = () => {
       board, shipsOnBoard,
       attackedPositions
     } = obj;
+    if (attackedPositions.includes(coordinate)) return;
     const tileAttacked = board[coordinate];
     if (tileAttacked === '') 
       board[coordinate] = 'miss';  

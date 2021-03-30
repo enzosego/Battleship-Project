@@ -6,13 +6,11 @@
           box-sizing: 0;
 }
 
-body {
-}
-
 .board-grid {
   margin: auto;
-  width: 600px;
-  height: 600px;
+  margin-top: 50px;
+  width: 450px;
+  height: 450px;
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   grid-gap: 0;
