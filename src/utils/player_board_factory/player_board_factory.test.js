@@ -238,7 +238,7 @@ test("Ships take hits correctly", () => {
   })
 })
 
-test("Board tiles change when a ship is destroyed", () => {
+test("Board tiles change when a ship is destroyed --- 1", () => {
   const newBoard = playerBoardFactory();
   newBoard.addShipToBoard(2, "Cruiser");
   newBoard.recieveAttack(2);
@@ -266,6 +266,178 @@ test("Board tiles change when a ship is destroyed", () => {
     }
   })
 });
+
+test("Board tiles change when a ship is destroyed --- 2", () => {
+  const newBoard = playerBoardFactory();
+  newBoard.changeShipDirection();
+  newBoard.addShipToBoard(9, "Carrier");
+  newBoard.recieveAttack(9);
+  newBoard.recieveAttack(19);
+  newBoard.recieveAttack(29);
+  newBoard.recieveAttack(39);
+  newBoard.recieveAttack(49);
+  expect(newBoard).toMatchObject({
+    board: [
+      '', '', '', '', '', '', '', '', 'null-sunk', 'Carrier1-destroyed',
+      '', '', '', '', '', '', '', '', 'null-sunk', 'Carrier2-destroyed',
+      '', '', '', '', '', '', '', '', 'null-sunk', 'Carrier3-destroyed',
+      '', '', '', '', '', '', '', '', 'null-sunk', 'Carrier4-destroyed',
+      '', '', '', '', '', '', '', '', 'null-sunk', 'Carrier5-destroyed',
+      '', '', '', '', '', '', '', '', 'null-sunk', 'null-sunk',
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+    ]
+  })
+})
+
+test("Board tiles change when a ship is destroyed --- 3", () => {
+  const newBoard = playerBoardFactory();
+  newBoard.changeShipDirection();
+  newBoard.addShipToBoard(0, "Carrier");
+  newBoard.recieveAttack(0);
+  newBoard.recieveAttack(10);
+  newBoard.recieveAttack(20);
+  newBoard.recieveAttack(30);
+  newBoard.recieveAttack(40);
+  expect(newBoard).toMatchObject({
+    board: [
+      'Carrier1-destroyed', 'null-sunk', '', '', '', '', '', '', '', '',
+      'Carrier2-destroyed', 'null-sunk', '', '', '', '', '', '', '', '',
+      'Carrier3-destroyed', 'null-sunk', '', '', '', '', '', '', '', '',
+      'Carrier4-destroyed', 'null-sunk', '', '', '', '', '', '', '', '',
+      'Carrier5-destroyed', 'null-sunk', '', '', '', '', '', '', '', '',
+      'null-sunk', 'null-sunk', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+    ]
+  })
+})
+
+test("Board tiles change when a ship is destroyed --- 4", () => {
+  const newBoard = playerBoardFactory();
+  newBoard.changeShipDirection();
+  newBoard.addShipToBoard(50, "Carrier");
+  newBoard.recieveAttack(50);
+  newBoard.recieveAttack(60);
+  newBoard.recieveAttack(70);
+  newBoard.recieveAttack(80);
+  newBoard.recieveAttack(90);
+  expect(newBoard).toMatchObject({
+    board: [
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+      'null-sunk', 'null-sunk', '', '', '', '', '', '', '', '',
+      'Carrier1-destroyed', 'null-sunk', '', '', '', '', '', '', '', '',
+      'Carrier2-destroyed', 'null-sunk', '', '', '', '', '', '', '', '',
+      'Carrier3-destroyed', 'null-sunk', '', '', '', '', '', '', '', '',
+      'Carrier4-destroyed', 'null-sunk', '', '', '', '', '', '', '', '',
+      'Carrier5-destroyed', 'null-sunk', '', '', '', '', '', '', '', '',
+    ]
+  })
+})
+
+test("Board tiles change when a ship is destroyed --- 5", () => {
+  const newBoard = playerBoardFactory();
+  newBoard.changeShipDirection();
+  newBoard.addShipToBoard(59, "Carrier");
+  newBoard.recieveAttack(59);
+  newBoard.recieveAttack(69);
+  newBoard.recieveAttack(79);
+  newBoard.recieveAttack(89);
+  newBoard.recieveAttack(99);
+  expect(newBoard).toMatchObject({
+    board: [
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', 'null-sunk', 'null-sunk',
+      '', '', '', '', '', '', '', '', 'null-sunk', 'Carrier1-destroyed',
+      '', '', '', '', '', '', '', '', 'null-sunk', 'Carrier2-destroyed',
+      '', '', '', '', '', '', '', '', 'null-sunk', 'Carrier3-destroyed',
+      '', '', '', '', '', '', '', '', 'null-sunk', 'Carrier4-destroyed',
+      '', '', '', '', '', '', '', '', 'null-sunk', 'Carrier5-destroyed',
+    ]
+  })
+})
+
+test("Board tiles change when a ship is destroyed --- 6", () => {
+  const newBoard = playerBoardFactory();
+  newBoard.addShipToBoard(94, "Carrier");
+  newBoard.recieveAttack(94);
+  newBoard.recieveAttack(95);
+  newBoard.recieveAttack(96);
+  newBoard.recieveAttack(97);
+  newBoard.recieveAttack(98);
+  expect(newBoard).toMatchObject({
+    board: [
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', 'null-sunk', 'null-sunk', 'null-sunk', 'null-sunk', 'null-sunk', 'null-sunk', 'null-sunk',
+      '', '', '', 'null-sunk', 'Carrier1-destroyed', 'Carrier2-destroyed', 'Carrier3-destroyed', 'Carrier4-destroyed', 'Carrier5-destroyed', 'null-sunk',
+    ]
+  })
+})
+
+test("Board tiles change when a ship is destroyed --- 7", () => {
+  const newBoard = playerBoardFactory();
+  newBoard.addShipToBoard(50, "Carrier");
+  newBoard.recieveAttack(50);
+  newBoard.recieveAttack(51);
+  newBoard.recieveAttack(52);
+  newBoard.recieveAttack(53);
+  newBoard.recieveAttack(54);
+  expect(newBoard).toMatchObject({
+    board: [
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+      'null-sunk', 'null-sunk', 'null-sunk', 'null-sunk', 'null-sunk', 'null-sunk', '', '', '', '',
+      'Carrier1-destroyed', 'Carrier2-destroyed', 'Carrier3-destroyed', 'Carrier4-destroyed', 'Carrier5-destroyed', 'null-sunk', '', '', '', '',
+      'null-sunk', 'null-sunk', 'null-sunk', 'null-sunk', 'null-sunk', 'null-sunk', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+    ]
+  })
+})
+
+test("Board tiles change when a ship is destroyed --- 8", () => {
+  const newBoard = playerBoardFactory();
+  newBoard.addShipToBoard(55, "Carrier");
+  newBoard.recieveAttack(55);
+  newBoard.recieveAttack(56);
+  newBoard.recieveAttack(57);
+  newBoard.recieveAttack(58);
+  newBoard.recieveAttack(59);
+  expect(newBoard).toMatchObject({
+    board: [
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', 'null-sunk', 'null-sunk', 'null-sunk', 'null-sunk', 'null-sunk', 'null-sunk',
+      '', '', '', '', 'null-sunk', 'Carrier1-destroyed', 'Carrier2-destroyed', 'Carrier3-destroyed', 'Carrier4-destroyed', 'Carrier5-destroyed',
+      '', '', '', '', 'null-sunk', 'null-sunk', 'null-sunk', 'null-sunk', 'null-sunk', 'null-sunk',
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+    ]
+  })
+})
 
 test("Battle is lost when all ships are taken down, ", () => {
   const newBoard = playerBoardFactory();

@@ -196,7 +196,7 @@ const computerBoardFactory = () => {
             attackedPositions.push(startIndex+9);
         }
       }
-      if (startIndex+shipLength % 10 != 0) {
+      if ((startIndex+shipLength) % 10 != 0) {
         board[startIndex+shipLength] = "null-sunk";
         if (!attackedPositions.includes(startIndex+shipLength))
           attackedPositions.push(startIndex+shipLength);
@@ -237,7 +237,7 @@ const computerBoardFactory = () => {
           if (!attackedPositions.includes(startIndex-11))
             attackedPositions.push(startIndex-11);
         }
-        if(startIndex-9 % 10 != 0) {
+        if((startIndex-9) % 10 != 0) {
           board[startIndex-9] = "null-sunk";
           if (!attackedPositions.includes(startIndex-9))
             attackedPositions.push(startIndex-9);
@@ -252,7 +252,7 @@ const computerBoardFactory = () => {
           if (!attackedPositions.includes(startIndex+(shipLength*10)-1))
             attackedPositions.push(startIndex+(shipLength*10)-1);
         }
-        if (startIndex-9 % 10 != 0) {
+        if ((startIndex-9) % 10 != 0) {
           board[startIndex+(shipLength*10)+1] = "null-sunk"
           if (!attackedPositions.includes(startIndex+(shipLength*10)+1))
             attackedPositions.push(startIndex+(shipLength*10)+1);
@@ -262,7 +262,7 @@ const computerBoardFactory = () => {
       for (let i = startIndex; i < startIndex + (shipLength*10); i+=10) {
         board[i] = board[i].slice(0, -3);
         board[i] += "destroyed";
-        if (i-9 % 10 != 10) {
+        if ((i-9) % 10 != 0) {
           board[i+1] = "null-sunk";
           if (!attackedPositions.includes(i+1))
             attackedPositions.push(i+1);
