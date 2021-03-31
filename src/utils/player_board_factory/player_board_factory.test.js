@@ -489,7 +489,7 @@ test("Computer focuses on a single ship after hitting it --- Carrier", () => {
   addShipToBoard(77, "Submarine")
   addShipToBoard(72, "Destroyer")
   recieveAttack(55);
-  for (let i = 0; i < 10; i++) 
+  for (let i = 0; i < 9; i++) 
     computerAttack();
   const isCarrierSunk = shipsOnBoard["Carrier"].isSunk;
   expect(isCarrierSunk).toBe(true);
@@ -509,7 +509,7 @@ test("Computer focuses on a single ship after hitting it --- Battleship", () => 
   addShipToBoard(77, "Submarine")
   addShipToBoard(72, "Destroyer")
   recieveAttack(13);
-  for (let i = 0; i < 10; i++) 
+  for (let i = 0; i < 8; i++) 
     computerAttack();
   const isBattleshipSunk = shipsOnBoard["Battleship"].isSunk;
   expect(isBattleshipSunk).toBe(true);
@@ -529,7 +529,7 @@ test("Computer focuses on a single ship after hitting it --- Cruiser", () => {
   addShipToBoard(77, "Submarine")
   addShipToBoard(72, "Destroyer")
   recieveAttack(38);
-  for (let i = 0; i < 10; i++) 
+  for (let i = 0; i < 7; i++) 
     computerAttack();
   const isCruiserSunk = shipsOnBoard["Cruiser"].isSunk;
   expect(isCruiserSunk).toBe(true);
@@ -549,7 +549,7 @@ test("Computer focuses on a single ship after hitting it --- Submarine", () => {
   addShipToBoard(77, "Submarine")
   addShipToBoard(72, "Destroyer")
   recieveAttack(77);
-  for (let i = 0; i < 10; i++) 
+  for (let i = 0; i < 6; i++) 
     computerAttack();
   const isSubmarineSunk = shipsOnBoard["Submarine"].isSunk;
   expect(isSubmarineSunk).toBe(true);
@@ -569,7 +569,219 @@ test("Computer focuses on a single ship after hitting it --- Destroyer", () => {
   addShipToBoard(77, "Submarine")
   addShipToBoard(72, "Destroyer")
   recieveAttack(82);
-  for (let i = 0; i < 10; i++) 
+  for (let i = 0; i < 4; i++) 
+    computerAttack();
+  const isDestroyerSunk = shipsOnBoard["Destroyer"].isSunk;
+  expect(isDestroyerSunk).toBe(true);
+})
+
+test("Computer focuses on a single ship after hitting it --- Carrier -- 2", () => {
+  const newBoard = playerBoardFactory();
+  const {
+    addShipToBoard, recieveAttack,
+    computerAttack, changeShipDirection,
+    shipsOnBoard
+  } = newBoard;
+  changeShipDirection();
+  addShipToBoard(52, "Carrier");
+  addShipToBoard(7, "Battleship");
+  addShipToBoard(50, "Cruiser");
+  changeShipDirection();
+  addShipToBoard(12, "Submarine");
+  addShipToBoard(76, "Destroyer");
+  recieveAttack(72);
+  for (let i = 0; i < 9; i++)
+    computerAttack();
+  const isCarrierSunk = shipsOnBoard["Carrier"].isSunk;
+  expect(isCarrierSunk).toBe(true);
+})
+
+test("Computer focuses on a single ship after hitting it --- Battleship -- 2", () => {
+  const newBoard = playerBoardFactory();
+  const {
+    addShipToBoard, recieveAttack,
+    computerAttack, changeShipDirection,
+    shipsOnBoard
+  } = newBoard;
+  addShipToBoard(14, "Carrier");
+  changeShipDirection();
+  addShipToBoard(32, "Battleship");
+  addShipToBoard(47, "Cruiser");
+  addShipToBoard(54, "Submarine");
+  changeShipDirection();
+  addShipToBoard(86, "Destroyer");
+  recieveAttack(42);
+  for (let i = 0; i < 8; i++)
+    computerAttack();
+  const isBattleshipSunk = shipsOnBoard["Battleship"].isSunk;
+  expect(isBattleshipSunk).toBe(true);
+})
+
+test("Computer focuses on a single ship after hitting it --- Cruiser -- 2", () => {
+  const newBoard = playerBoardFactory();
+  const {
+    addShipToBoard, recieveAttack,
+    computerAttack, changeShipDirection,
+    shipsOnBoard
+  } = newBoard;
+  addShipToBoard(22, "Carrier");
+  changeShipDirection();
+  addShipToBoard(38, "Battleship");
+  changeShipDirection();
+  addShipToBoard(74, "Cruiser");
+  addShipToBoard(43, "Submarine");
+  addShipToBoard(96, "Destroyer");
+  recieveAttack(75);
+  for (let i = 0; i < 7; i++)
+    computerAttack();
+  const isCruiserSunk = shipsOnBoard["Cruiser"].isSunk;
+  expect(isCruiserSunk).toBe(true);
+})
+
+test("Computer focuses on a single ship after hitting it --- Submarine -- 2", () => {
+  const newBoard = playerBoardFactory();
+  const {
+    addShipToBoard, recieveAttack,
+    computerAttack, changeShipDirection,
+    shipsOnBoard
+  } = newBoard;
+  changeShipDirection();
+  addShipToBoard(44, "Carrier");
+  addShipToBoard(37, "Battleship");
+  addShipToBoard(79, "Cruiser");
+  changeShipDirection();
+  addShipToBoard(5, "Submarine");
+  addShipToBoard(12, "Destroyer");
+  recieveAttack(5);
+  for (let i = 0; i < 6; i++)
+    computerAttack();
+  const isSubmarineSunk = shipsOnBoard["Submarine"].isSunk;
+  expect(isSubmarineSunk).toBe(true);
+})
+
+test("Computer focuses on a single ship after hitting it --- Destroyer -- 2", () => {
+  const newBoard = playerBoardFactory();
+  const {
+    addShipToBoard, recieveAttack,
+    computerAttack, changeShipDirection,
+    shipsOnBoard
+  } = newBoard;
+  addShipToBoard(21, "Carrier");
+  changeShipDirection();
+  addShipToBoard(27, "Battleship");
+  addShipToBoard(42, "Cruiser");
+  addShipToBoard(55, "Submarine");
+  changeShipDirection();
+  addShipToBoard(87, "Destroyer");
+  recieveAttack(88);
+  for (let i = 0; i < 4; i++)
+    computerAttack();
+  const isDestroyerSunk = shipsOnBoard["Destroyer"].isSunk;
+  expect(isDestroyerSunk).toBe(true);
+})
+
+test("Computer focuses on a single ship after hitting it --- Carrier -- 3", () => {
+  const newBoard = playerBoardFactory();
+  const {
+    addShipToBoard, recieveAttack,
+    computerAttack, changeShipDirection,
+    shipsOnBoard
+  } = newBoard;
+  addShipToBoard(40, "Carrier");
+  changeShipDirection();
+  addShipToBoard(9, "Battleship");
+  addShipToBoard(7, "Cruiser");
+  addShipToBoard(56, "Submarine");
+  changeShipDirection();
+  addShipToBoard(98, "Destroyer");
+  recieveAttack(42);
+  for (let i = 0; i < 7; i++)
+    computerAttack();
+  const isCarrierSunk = shipsOnBoard["Carrier"].isSunk;
+  expect(isCarrierSunk).toBe(true);
+})
+
+test("Computer focuses on a single ship after hitting it --- Battleship -- 3", () => {
+  const newBoard = playerBoardFactory();
+  const {
+    addShipToBoard, recieveAttack,
+    computerAttack, changeShipDirection,
+    shipsOnBoard
+  } = newBoard;
+  addShipToBoard(35, "Carrier");
+  changeShipDirection();
+  addShipToBoard(0, "Battleship");
+  addShipToBoard(52, "Cruiser");
+  addShipToBoard(65, "Submarine");
+  changeShipDirection();
+  addShipToBoard(98, "Destroyer");
+  recieveAttack(30);
+  for (let i = 0; i < 8; i++)
+    computerAttack();
+  const isBattleshipSunk = shipsOnBoard["Battleship"].isSunk;
+  expect(isBattleshipSunk).toBe(true);
+})
+
+test("Computer focuses on a single ship after hitting it --- Cruiser -- 3", () => {
+  const newBoard = playerBoardFactory();
+  const {
+    addShipToBoard, recieveAttack,
+    computerAttack, changeShipDirection,
+    shipsOnBoard
+  } = newBoard;
+  addShipToBoard(21, "Carrier");
+  changeShipDirection();
+  addShipToBoard(27, "Battleship");
+  changeShipDirection();
+  addShipToBoard(90, "Cruiser");
+  changeShipDirection();
+  addShipToBoard(55, "Submarine");
+  changeShipDirection();
+  addShipToBoard(87, "Destroyer");
+  recieveAttack(90);
+  for (let i = 0; i < 4; i++)
+    computerAttack();
+  const isCruiserSunk = shipsOnBoard["Cruiser"].isSunk;
+  expect(isCruiserSunk).toBe(true);
+})
+
+test("Computer focuses on a single ship after hitting it --- Submarine -- 3", () => {
+  const newBoard = playerBoardFactory();
+  const {
+    addShipToBoard, recieveAttack,
+    computerAttack, changeShipDirection,
+    shipsOnBoard
+  } = newBoard;
+  addShipToBoard(21, "Carrier");
+  changeShipDirection();
+  addShipToBoard(27, "Battleship");
+  addShipToBoard(42, "Cruiser");
+  addShipToBoard(9, "Submarine");
+  changeShipDirection();
+  addShipToBoard(87, "Destroyer");
+  recieveAttack(19);
+  for (let i = 0; i < 6; i++)
+    computerAttack();
+  const isSubmarineSunk = shipsOnBoard["Submarine"].isSunk;
+  expect(isSubmarineSunk).toBe(true);
+})
+
+test("Computer focuses on a single ship after hitting it --- Destroyer -- 3", () => {
+  const newBoard = playerBoardFactory();
+  const {
+    addShipToBoard, recieveAttack,
+    computerAttack, changeShipDirection,
+    shipsOnBoard
+  } = newBoard;
+  addShipToBoard(21, "Carrier");
+  changeShipDirection();
+  addShipToBoard(27, "Battleship");
+  addShipToBoard(42, "Cruiser");
+  addShipToBoard(55, "Submarine");
+  changeShipDirection();
+  addShipToBoard(98, "Destroyer");
+  recieveAttack(99);
+  for (let i = 0; i < 2; i++)
     computerAttack();
   const isDestroyerSunk = shipsOnBoard["Destroyer"].isSunk;
   expect(isDestroyerSunk).toBe(true);

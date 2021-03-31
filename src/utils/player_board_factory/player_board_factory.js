@@ -261,25 +261,32 @@ const playerBoardFactory = () => {
       attackedPositions, posiblePositions
     } = obj;
 
+    if (shipsOnBoard[shipToDestroy].hits > 3) {
+      for (let i = 0; i < board.length; i++) 
+        if (board[i].includes(`${shipToDestroy}`) && !attackedPositions.includes(i))
+          posiblePositions.push(i);
+      return;
+    }
+
     if (shipsOnBoard[shipToDestroy].hits > 1) {
       const startIndex = board.indexOf(
         board.find(tile => tile.includes(`${shipToDestroy}1`))
       );
       const shipLength = shipsOnBoard[shipToDestroy].length;
       if (shipsOnBoard[shipToDestroy].axis == "X") {
-        for (let i = startIndex; i < startIndex+shipLength && i < 100; i++) 
-          if (!attackedPositions.includes(i) && board[i] !== "") 
+        for (let i = startIndex; i <= startIndex+shipLength && i < 100; i++) 
+          if (!attackedPositions.includes(i) && i % 10 != 0 && board[i] !== "") 
             posiblePositions.push(i);
-        for (let i = startIndex; i > startIndex-shipLength && i > -1; i--) 
-          if (!attackedPositions.includes(i) && board[i] !== "") 
+        for (let i = startIndex+shipLength; i >= startIndex-1 && i > -1; i--) 
+          if (!attackedPositions.includes(i) && (i-9) % 10 != 0 && board[i] !== "") 
             posiblePositions.push(i);
       }
       else {
-        for (let i = startIndex; i < startIndex+(shipLength*10) && i < 100; i+=10) 
-          if (!attackedPositions.includes(i) && board[i] !== "") 
+        for (let i = startIndex; i <= startIndex+(shipLength*10) && i < 100; i+=10) 
+          if (!attackedPositions.includes(i) && i > -1 && board[i] !== "") 
             posiblePositions.push(i);
-        for (let i = startIndex; i < startIndex-(shipLength*10) && i > -1; i-=10) 
-          if (!attackedPositions.includes(i) && board[i] !== "") 
+        for (let i = startIndex+(shipLength*10); i >= startIndex-10 && i > -1; i-=10) 
+          if (!attackedPositions.includes(i) && i < 100 && board[i] !== "") 
             posiblePositions.push(i);
       }
       return;
