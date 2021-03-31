@@ -23,23 +23,25 @@ export const App = () => {
   const [ whoLost, setWhoLost ] = useState(() => "");
 
   const resetGame = () => {
+    setHasGameStarted(false);
     setPlayerBoard(() => playerBoardFactory());
     setComputerBoard(() => computerBoardFactory());
+    setVerticalAxis(false);
     setShipCount(0);
-    setHasGameStarted(false);
     setWhoLost("");
+    setTurn("player");
   }
 
   useEffect(() => {
     const didPlayerLose = playerBoard.checkingForDefeat();
     if (didPlayerLose) 
-      setTimeout(() => setWhoLost("player"), 2500);
+      setTimeout(() => setWhoLost("player"), 2000);
   }, [playerBoard]);
 
   useEffect(() => {
     const didComputerLose = computerBoard.checkingForDefeat();
     if (didComputerLose) 
-      setTimeout(() => setWhoLost("computer"), 2500);
+      setTimeout(() => setWhoLost("computer"), 2000);
   }, [computerBoard]);
 
   useEffect(() => {
@@ -85,6 +87,8 @@ export const App = () => {
 
   const handlePlayerAttack = index => {
     if (turn === "computer") return;
+    const didPlayerLose = playerBoard.checkingForDefeat();
+    if (didPlayerLose) return;
     switchTurn();
     let boardCopy = {...computerBoard};
     boardCopy.recieveAttack(index);
