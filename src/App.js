@@ -33,19 +33,26 @@ export const App = () => {
   useEffect(() => {
     const didPlayerLose = playerBoard.checkingForDefeat();
     if (didPlayerLose) 
-      setWhoLost("player");
+      setTimeout(() => setWhoLost("player"), 2500);
   }, [playerBoard]);
 
   useEffect(() => {
     const didComputerLose = computerBoard.checkingForDefeat();
     if (didComputerLose) 
-      setWhoLost("computer");
+      setTimeout(() => setWhoLost("computer"), 2500);
   }, [computerBoard]);
 
   useEffect(() => {
     if (hasGameStarted === true)
       sortComputerShips();
   }, [hasGameStarted])
+
+  useEffect(() => {
+    const didPlayerLose = playerBoard.checkingForDefeat();
+    const didComputerLose = computerBoard.checkingForDefeat();
+    if (turn === "computer" && !didComputerLose && !didPlayerLose) 
+      setTimeout(handleComputerAttack, 1500);
+  }, [turn])
 
   const triggerGameStart = () => 
     setHasGameStarted(!hasGameStarted);
@@ -77,6 +84,7 @@ export const App = () => {
   }
 
   const handlePlayerAttack = index => {
+    if (turn === "computer") return;
     switchTurn();
     let boardCopy = {...computerBoard};
     boardCopy.recieveAttack(index);
@@ -89,11 +97,6 @@ export const App = () => {
     boardCopy.computerAttack();
     setPlayerBoard(boardCopy);
   }
-
-  useEffect(() => {
-    if (turn === "computer")
-      handleComputerAttack();
-  }, [turn])
 
   return (
     <section className="App">
