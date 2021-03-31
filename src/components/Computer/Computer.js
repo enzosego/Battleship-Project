@@ -9,7 +9,7 @@ const classMapping = tile => {
   if (tile.includes("miss"))
     return "tile miss";
   if (tile.includes("sunk")) 
-    return "tile ship--sunk"
+    return "tile ship--sunk";
   return "tile";
 }
 
