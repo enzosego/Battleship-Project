@@ -24,11 +24,12 @@ const shipLengthMap = {
 export const App = () => {
   const [ playerBoard, setPlayerBoard ] = useState(() => playerBoardFactory());
   const [ computerBoard, setComputerBoard ] = useState(() => computerBoardFactory());
-  const [ shipCount, setShipCount ] = useState(() => 0);
   const [ turn, setTurn ] = useState(() => "player");
   const [ hasGameStarted, setHasGameStarted ] = useState(() => false);
   const [ verticalAxis, setVerticalAxis ] = useState(() => false);
   const [ whoLost, setWhoLost ] = useState(() => "");
+  const [ shipCount, setShipCount ] = useState(() => 0);
+  const [ shipPreview, setShipPreview ] = useState(() => []);
 
   useEffect(() => {
     const didPlayerLose = playerBoard.checkingForDefeat();
@@ -81,16 +82,26 @@ export const App = () => {
 
   const isPositionViable = (index) => {
     const shipLength = shipLengthMap[shipCount]-1;
-    if (verticalAxis) {
-      if (index+(shipLength*10) > 99)
-        return false;
-    } else {
-      if (index > 10 && +`${index}`[0] < +`${index+shipLength}`[0])
-        return false;
-      if (`${index}`.length < `${index+shipLength}`.length)
-        return false;
-    }
+    const shipName = shipNameMap[shipCount];
+    const availableSpaces = 
+      playerBoard.checkAvailableSpaces(shipName);
+    if (!availableSpaces.includes(index)) return false;
     return true;
+  }
+
+  const showShipPreview = (index) => {
+    if (!isPositionViable(index)) return;
+    console.log("XD");
+    const shipLength = shipLengthMap[shipCount]-1;
+    const newShipPreview = [];
+    if (verticalAxis) {
+      for (let i = index; i <= (shipLength*10); i+=10) 
+        newShipPreview.push(i);
+    } else {
+      for (let i = index; i <= shipLength; i++)
+        newShipPreview.push(i);
+    }
+    setShipPreview(newShipPreview);
   }
 
   const removeLastShip = () => {
@@ -146,7 +157,9 @@ export const App = () => {
             handlePlayerAttack={handlePlayerAttack}
             playerBoard={playerBoard}
             computerBoard={computerBoard}
-            removeLastShip={removeLastShip}/>
+            removeLastShip={removeLastShip}
+            shipPreview={shipPreview}
+            showShipPreview={showShipPreview}/>
         : <EndScreen 
             whoLost={whoLost}
             resetGame={resetGame}/>

@@ -117,6 +117,43 @@ const playerBoardFactory = () => {
     updateBoard();
   }
 
+  const checkAvailableSpaces = (shipName) => {
+    const shipLength = lengthMapping[shipName];
+    let availableSpaces = [];
+    if (obj.verticalShip) 
+      for (let i = 0; i < obj.board.length; i++) {
+        if (i + (shipLength*10) > 109)
+          continue
+        if (obj.board[i] === "") {
+          let count = 1;
+          for (let j = i+10; j < ((shipLength) * 10)+i; j+=10) {
+            if (obj.board[j] === "") 
+              count++;
+            else break;
+          }
+          if (count === shipLength)
+            availableSpaces.push(i);
+        }
+      }
+    else {
+      for (let i = 0; i < obj.board.length; i++) {
+        const strNum = `${i}`;
+        if (obj.board[i] === "" && (strNum[1] < 11-shipLength || strNum < 11-shipLength)) {
+          let count = 1;
+          for (let j = i+1; j < (shipLength)+i; j++) {
+            if (obj.board[j] === "") {
+              count++;
+            }
+            else break;
+          }
+          if (count === shipLength)
+            availableSpaces.push(i);
+        }
+      }
+    }
+    return availableSpaces;
+  }
+
   const checkingForDefeat = () => {
     let sunkShipsCount = 0;
     for (const [key, ship] of Object.entries(obj.shipsOnBoard)) 
@@ -348,6 +385,7 @@ const playerBoardFactory = () => {
     recieveAttack,
     addShipToBoard,
     removeShipFromBoard,
+    checkAvailableSpaces,
     checkingForDefeat,
     verticalShip,
     changeShipDirection,
