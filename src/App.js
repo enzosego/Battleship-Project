@@ -13,6 +13,14 @@ const shipNameMap = {
   4: "Destroyer"
 }
 
+const shipLengthMap = {
+  0: 5,
+  1: 4,
+  2: 3,
+  3: 3,
+  4: 2
+}
+
 export const App = () => {
   const [ playerBoard, setPlayerBoard ] = useState(() => playerBoardFactory());
   const [ computerBoard, setComputerBoard ] = useState(() => computerBoardFactory());
@@ -71,6 +79,20 @@ export const App = () => {
     setPlayerBoard(boardCopy);
   }
 
+  const isPositionViable = (index) => {
+    const shipLength = shipLengthMap[shipCount]-1;
+    if (verticalAxis) {
+      if (index+(shipLength*10) > 99)
+        return false;
+    } else {
+      if (index > 10 && +`${index}`[0] < +`${index+shipLength}`[0])
+        return false;
+      if (`${index}`.length < `${index+shipLength}`.length)
+        return false;
+    }
+    return true;
+  }
+
   const removeLastShip = () => {
     if (shipCount <= 0) return;
     const boardCopy = {...playerBoard};
@@ -82,6 +104,7 @@ export const App = () => {
 
   const addPlayerShip = index => {
     if (hasGameStarted === true) return;
+    if (!isPositionViable(index)) return;
     const boardCopy = {...playerBoard};
     boardCopy.addShipToBoard(index , shipNameMap[shipCount]);
     setPlayerBoard(boardCopy);
