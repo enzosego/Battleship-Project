@@ -22,16 +22,6 @@ export const App = () => {
   const [ verticalAxis, setVerticalAxis ] = useState(() => false);
   const [ whoLost, setWhoLost ] = useState(() => "");
 
-  const resetGame = () => {
-    setHasGameStarted(false);
-    setPlayerBoard(() => playerBoardFactory());
-    setComputerBoard(() => computerBoardFactory());
-    setVerticalAxis(false);
-    setShipCount(0);
-    setWhoLost("");
-    setTurn("player");
-  }
-
   useEffect(() => {
     const didPlayerLose = playerBoard.checkingForDefeat();
     if (didPlayerLose) 
@@ -59,6 +49,16 @@ export const App = () => {
   const triggerGameStart = () => 
     setHasGameStarted(!hasGameStarted);
 
+  const resetGame = () => {
+    setHasGameStarted(false);
+    setPlayerBoard(() => playerBoardFactory());
+    setComputerBoard(() => computerBoardFactory());
+    setVerticalAxis(false);
+    setShipCount(0);
+    setWhoLost("");
+    setTurn("player");
+  }
+
   const switchTurn = () => 
     turn === "player"
       ? setTurn("computer")
@@ -69,6 +69,15 @@ export const App = () => {
     let boardCopy = {...playerBoard};
     boardCopy.changeShipDirection();
     setPlayerBoard(boardCopy);
+  }
+
+  const removeLastShip = () => {
+    if (shipCount <= 0) return;
+    const boardCopy = {...playerBoard};
+    const shipToRemove = shipNameMap[shipCount-1];
+    boardCopy.removeShipFromBoard(shipToRemove);
+    setPlayerBoard(boardCopy);
+    setShipCount(prevValue => prevValue-1);
   }
 
   const addPlayerShip = index => {
@@ -113,7 +122,8 @@ export const App = () => {
             addPlayerShip={addPlayerShip}
             handlePlayerAttack={handlePlayerAttack}
             playerBoard={playerBoard}
-            computerBoard={computerBoard}/>
+            computerBoard={computerBoard}
+            removeLastShip={removeLastShip}/>
         : <EndScreen 
             whoLost={whoLost}
             resetGame={resetGame}/>
