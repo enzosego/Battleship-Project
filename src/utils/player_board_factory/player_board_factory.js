@@ -1,20 +1,5 @@
 const shipFactory = require('../ship_factory/ship_factory');
 
-const pushingShipsOnBoard = () => {
-  const Carrier = shipFactory("Carrier");
-  const Battleship = shipFactory("Battleship");
-  const Cruiser = shipFactory("Cruiser");
-  const Submarine = shipFactory("Submarine");
-  const Destroyer = shipFactory("Destroyer");
-  return {
-    Carrier,
-    Battleship, 
-    Cruiser, 
-    Submarine, 
-    Destroyer
-  };
-}
-
 const playerBoardFactory = () => {
   let board = [
     '', '', '', '', '', '', '', '', '', '',
@@ -29,24 +14,33 @@ const playerBoardFactory = () => {
     '', '', '', '', '', '', '', '', '', '',
   ]
   
+  const lengthMapping = {
+    "Carrier": 5,
+    "Battleship": 4,
+    "Cruiser": 3,
+    "Submarine": 3,
+    "Destroyer": 2,
+  }
+  
   let verticalShip = false;
   const changeShipDirection = () => 
     obj.verticalShip = !obj.verticalShip;
 
-  const shipsOnBoard = pushingShipsOnBoard();
+  const shipsOnBoard = {};
 
-  const addShipToBoard = (coordinate, shipName) => {
-    const {
-      board,
-      verticalShip,
-      shipsOnBoard
+  const appendShip = (shipName) => {
+    const { 
+      board, shipsOnBoard 
     } = obj;
-    const tileStart = coordinate;
-    const shipLength =
-      shipsOnBoard[shipName].length;
+    const shipAxis = 
+      shipsOnBoard[shipName].axis;
+    const tileStart = 
+      shipsOnBoard[shipName].index;
+    const shipLength = 
+      lengthMapping[shipName];
+
     let count = 1;
-    if (!verticalShip) {
-      shipsOnBoard[shipName].axis = "X";
+    if (shipAxis === "X") {
       if (tileStart % 10 != 0) {
         board[tileStart-1] = "null";
         if (board[(tileStart-1)+10] === "")
@@ -70,7 +64,6 @@ const playerBoardFactory = () => {
         count++;
       }
     } else {
-      shipsOnBoard[shipName].axis = "Y";
       if (tileStart >= 10) {
         board[tileStart-10] = "null";
         if (board[tileStart-10+1] == "" && (tileStart-9) % 10 != 0)
@@ -94,6 +87,34 @@ const playerBoardFactory = () => {
         count++;
       }
     }
+  }
+
+  const updateBoard = () => {
+    const { 
+      shipsOnBoard, board 
+    } = obj;
+    for (let i = 0; i < board.length; i++)
+      board[i] = '';
+    for (let shipName of Object.keys(shipsOnBoard)) 
+      appendShip(shipName);
+  }
+
+  const addShipToBoard = (coordinate, shipName) => {
+    const {
+      verticalShip, shipsOnBoard
+    } = obj;
+    const shipAxis = 
+      verticalShip === false
+      ? "X"
+      : "Y";
+    shipsOnBoard[shipName] = 
+      shipFactory(shipName, shipAxis, coordinate);
+    updateBoard();
+  }
+
+  const removeShipFromBoard = (shipName) => {
+    delete obj.shipsOnBoard[shipName];
+    updateBoard();
   }
 
   const checkingForDefeat = () => {
@@ -326,6 +347,7 @@ const playerBoardFactory = () => {
     shipsOnBoard, 
     recieveAttack,
     addShipToBoard,
+    removeShipFromBoard,
     checkingForDefeat,
     verticalShip,
     changeShipDirection,

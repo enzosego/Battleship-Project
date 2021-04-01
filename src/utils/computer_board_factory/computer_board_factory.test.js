@@ -441,24 +441,29 @@ test("Board tiles change when a ship is destroyed --- 8", () => {
 
 test("Battle is lost when all ships are taken down, ", () => {
   const newBoard = computerBoardFactory();
-  newBoard.shipsOnBoard.Carrier.addHit();
-  newBoard.shipsOnBoard.Carrier.addHit();
-  newBoard.shipsOnBoard.Carrier.addHit();
-  newBoard.shipsOnBoard.Carrier.addHit();
-  newBoard.shipsOnBoard.Carrier.addHit();
-  newBoard.shipsOnBoard.Battleship.addHit();
-  newBoard.shipsOnBoard.Battleship.addHit();
-  newBoard.shipsOnBoard.Battleship.addHit();
-  newBoard.shipsOnBoard.Battleship.addHit();
-  newBoard.shipsOnBoard.Submarine.addHit();
-  newBoard.shipsOnBoard.Submarine.addHit();
-  newBoard.shipsOnBoard.Submarine.addHit();
-  newBoard.shipsOnBoard.Cruiser.addHit();
-  newBoard.shipsOnBoard.Cruiser.addHit();
-  newBoard.shipsOnBoard.Cruiser.addHit();
-  newBoard.shipsOnBoard.Destroyer.addHit();
-  newBoard.shipsOnBoard.Destroyer.addHit();
-  const isBattleLost = newBoard.checkingForDefeat();
+  const {
+    shipsOnBoard, randomlyAddShips,
+    checkingForDefeat
+  } = newBoard;
+  randomlyAddShips();
+  shipsOnBoard.Carrier.addHit();
+  shipsOnBoard.Carrier.addHit();
+  shipsOnBoard.Carrier.addHit();
+  shipsOnBoard.Carrier.addHit();
+  shipsOnBoard.Carrier.addHit();
+  shipsOnBoard.Battleship.addHit();
+  shipsOnBoard.Battleship.addHit();
+  shipsOnBoard.Battleship.addHit();
+  shipsOnBoard.Battleship.addHit();
+  shipsOnBoard.Submarine.addHit();
+  shipsOnBoard.Submarine.addHit();
+  shipsOnBoard.Submarine.addHit();
+  shipsOnBoard.Cruiser.addHit();
+  shipsOnBoard.Cruiser.addHit();
+  shipsOnBoard.Cruiser.addHit();
+  shipsOnBoard.Destroyer.addHit();
+  shipsOnBoard.Destroyer.addHit();
+  const isBattleLost = checkingForDefeat();
   expect(isBattleLost).toBe(true);
 })
 

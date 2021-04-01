@@ -213,6 +213,386 @@ test("Adds ship vertically at the bottom left of the board", () => {
   })
 })
 
+test("Ship is removed correctly --- Carrier", () => {
+  const newBoard = playerBoardFactory();
+  const {
+    removeShipFromBoard,
+    addShipToBoard, changeShipDirection
+  } = newBoard;
+  addShipToBoard(41, "Carrier");
+  addShipToBoard(5, "Battleship");
+  changeShipDirection();
+  addShipToBoard(47, "Cruiser");
+  addShipToBoard(59, "Submarine");
+  addShipToBoard(70, "Destroyer");
+  removeShipFromBoard("Carrier");
+  expect(newBoard).toMatchObject({
+    board: [
+      '', '', '', '', 'null', 'Battleship1', 'Battleship2', 'Battleship3', 'Battleship4', 'null',
+      '', '', '', '', 'null', 'null', 'null', 'null', 'null', 'null',
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', 'null', 'null', 'null', '',
+      '', '', '', '', '', '', 'null', 'Cruiser1', 'null', 'null',
+      '', '', '', '', '', '', 'null', 'Cruiser2', 'null', 'Submarine1',
+      'null', 'null', '', '', '', '', 'null', 'Cruiser3', 'null', 'Submarine2',
+      'Destroyer1', 'null', '', '', '', '', 'null', 'null', 'null', 'Submarine3',
+      'Destroyer2', 'null', '', '', '', '', '', '', 'null', 'null',
+      'null', 'null', '', '', '', '', '', '', '', '',
+    ]
+  })
+})
+
+test("Ship is removed correctly --- Battleship", () => {
+  const newBoard = playerBoardFactory();
+  const {
+    removeShipFromBoard,
+    addShipToBoard, changeShipDirection
+  } = newBoard;
+  changeShipDirection();
+  addShipToBoard(11, "Carrier");
+  addShipToBoard(44, "Battleship");
+  changeShipDirection();
+  addShipToBoard(14, "Cruiser");
+  addShipToBoard(57, "Submarine");
+  changeShipDirection();
+  addShipToBoard(82, "Destroyer");
+  removeShipFromBoard("Battleship");
+  expect(newBoard).toMatchObject({
+    board: [
+      'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', '', '',
+      'null', 'Carrier1', 'null', 'null', 'Cruiser1', 'Cruiser2', 'Cruiser3', 'null', '', '',
+      'null', 'Carrier2', 'null', 'null', 'null', 'null', 'null', 'null', '', '',
+      'null', 'Carrier3', 'null', '', '', '', '', '', '', '',
+      'null', 'Carrier4', 'null', '', '', '', 'null', 'null', 'null', 'null',
+      'null', 'Carrier5', 'null', '', '', '', 'null', 'Submarine1', 'Submarine2', 'Submarine3',
+      'null', 'null', 'null', '', '', '', 'null', 'null', 'null', 'null',
+      '', 'null', 'null', 'null', '', '', '', '', '', '',
+      '', 'null', 'Destroyer1', 'null', '', '', '', '', '', '',
+      '', 'null', 'Destroyer2', 'null', '', '', '', '', '', '',
+    ]
+  })
+})
+
+test("Ship is removed correctly --- Cruiser", () => {
+  const newBoard = playerBoardFactory();
+  const {
+    removeShipFromBoard,
+    addShipToBoard, changeShipDirection
+  } = newBoard;
+  changeShipDirection();
+  addShipToBoard(59, "Carrier");
+  addShipToBoard(24, "Battleship");
+  changeShipDirection();
+  addShipToBoard(6, "Cruiser");
+  addShipToBoard(83, "Submarine");
+  addShipToBoard(1 ,"Destroyer");
+  removeShipFromBoard("Cruiser");
+  expect(newBoard).toMatchObject({
+    board: [
+      'null', 'Destroyer1', 'Destroyer2', 'null', '', '', '', '', '', '',
+      'null', 'null', 'null', 'null', 'null', 'null', '', '', '', '',
+      '', '', '', 'null', 'Battleship1', 'null', '', '', '', '',
+      '', '', '', 'null', 'Battleship2', 'null', '', '', '', '',
+      '', '', '', 'null', 'Battleship3', 'null', '', '', 'null', 'null',
+      '', '', '', 'null', 'Battleship4', 'null', '', '', 'null', 'Carrier1',
+      '', '', '', 'null', 'null', 'null', '', '', 'null', 'Carrier2',
+      '', '', 'null', 'null', 'null', 'null', 'null', '', 'null', 'Carrier3',
+      '', '', 'null', 'Submarine1', 'Submarine2', 'Submarine3', 'null', '', 'null', 'Carrier4',
+      '', '', 'null', 'null', 'null', 'null', 'null', '', 'null', 'Carrier5',
+    ]
+  })
+})
+
+test("Ship is removed correctly --- Submarine", () => {
+  const newBoard = playerBoardFactory();
+  const {
+    removeShipFromBoard,
+    addShipToBoard, changeShipDirection
+  } = newBoard;
+  changeShipDirection();
+  addShipToBoard(17, "Carrier");
+  addShipToBoard(22, "Battleship");
+  changeShipDirection();
+  addShipToBoard(72, "Cruiser");
+  addShipToBoard(2, "Submarine");
+  addShipToBoard(97, "Destroyer");
+  removeShipFromBoard("Submarine");
+  expect(newBoard).toMatchObject({
+    board: [
+      '', '', '', '', '', '', 'null', 'null', 'null', '',
+      '', 'null', 'null', 'null', '', '', 'null', 'Carrier1', 'null', '',
+      '', 'null', 'Battleship1', 'null', '', '', 'null', 'Carrier2', 'null', '',
+      '', 'null', 'Battleship2', 'null', '', '', 'null', 'Carrier3', 'null', '',
+      '', 'null', 'Battleship3', 'null', '', '', 'null', 'Carrier4', 'null', '',
+      '', 'null', 'Battleship4', 'null', '', '', 'null', 'Carrier5', 'null', '',
+      '', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', '',
+      '', 'null', 'Cruiser1', 'Cruiser2', 'Cruiser3', 'null', '', '', '', '',
+      '', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null',
+      '', '', '', '', '', '', 'null', 'Destroyer1', 'Destroyer2', 'null',
+    ]
+  })
+})
+
+test("Ship is removed correctly --- Destroyer", () => {
+  const newBoard = playerBoardFactory();
+  const {
+    removeShipFromBoard,
+    addShipToBoard, changeShipDirection
+  } = newBoard;
+  addShipToBoard(93, "Carrier");
+  changeShipDirection();
+  addShipToBoard(7, "Battleship");
+  addShipToBoard(12, "Cruiser");
+  addShipToBoard(70, "Submarine");
+  changeShipDirection();
+  addShipToBoard(78, "Destroyer");
+  removeShipFromBoard("Destroyer");
+  expect(newBoard).toMatchObject({
+    board: [
+      '', 'null', 'null', 'null', '', '', 'null', 'Battleship1', 'null', '',
+      '', 'null', 'Cruiser1', 'null', '', '', 'null', 'Battleship2', 'null', '',
+      '', 'null', 'Cruiser2', 'null', '', '', 'null', 'Battleship3', 'null', '',
+      '', 'null', 'Cruiser3', 'null', '', '', 'null', 'Battleship4', 'null', '',
+      '', 'null', 'null', 'null', '', '', 'null', 'null', 'null', '',
+      '', '', '', '', '', '', '', '', '', '',
+      'null', 'null', '', '', '', '', '', '', '', '',
+      'Submarine1', 'null', '', '', '', '', '', '', '', '',
+      'Submarine2', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', '',
+      'Submarine3', 'null', 'null', 'Carrier1', 'Carrier2', 'Carrier3', 'Carrier4', 'Carrier5', 'null', '',
+    ]
+  })
+})
+
+test("It's possible to add a ship after it got removed --- Carrier", () => {
+  const newBoard = playerBoardFactory();
+  const {
+    removeShipFromBoard,
+    addShipToBoard, changeShipDirection
+  } = newBoard;
+  addShipToBoard(41, "Carrier");
+  addShipToBoard(5, "Battleship");
+  changeShipDirection();
+  addShipToBoard(47, "Cruiser");
+  addShipToBoard(59, "Submarine");
+  addShipToBoard(70, "Destroyer");
+  removeShipFromBoard("Carrier");
+  changeShipDirection();
+  addShipToBoard(41, "Carrier")
+  expect(newBoard).toMatchObject({
+    board: [
+      '', '', '', '', 'null', 'Battleship1', 'Battleship2', 'Battleship3', 'Battleship4', 'null',
+      '', '', '', '', 'null', 'null', 'null', 'null', 'null', 'null',
+      '', '', '', '', '', '', '', '', '', '',
+      'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', '',
+      'null', 'Carrier1', 'Carrier2', 'Carrier3', 'Carrier4', 'Carrier5', 'null', 'Cruiser1', 'null', 'null',
+      'null', 'null', 'null', 'null', 'null', 'null', 'null', 'Cruiser2', 'null', 'Submarine1',
+      'null', 'null', '', '', '', '', 'null', 'Cruiser3', 'null', 'Submarine2',
+      'Destroyer1', 'null', '', '', '', '', 'null', 'null', 'null', 'Submarine3',
+      'Destroyer2', 'null', '', '', '', '', '', '', 'null', 'null',
+      'null', 'null', '', '', '', '', '', '', '', '',
+    ]
+  })
+})
+
+test("It's possible to add a ship after it got removed --- Battleship", () => {
+  const newBoard = playerBoardFactory();
+  const {
+    removeShipFromBoard,
+    addShipToBoard, changeShipDirection
+  } = newBoard;
+  changeShipDirection();
+  addShipToBoard(11, "Carrier");
+  addShipToBoard(44, "Battleship");
+  changeShipDirection();
+  addShipToBoard(14, "Cruiser");
+  addShipToBoard(57, "Submarine");
+  changeShipDirection();
+  addShipToBoard(82, "Destroyer");
+  removeShipFromBoard("Battleship");
+  addShipToBoard(44, "Battleship")
+  expect(newBoard).toMatchObject({
+    board: [
+      'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', '', '',
+      'null', 'Carrier1', 'null', 'null', 'Cruiser1', 'Cruiser2', 'Cruiser3', 'null', '', '',
+      'null', 'Carrier2', 'null', 'null', 'null', 'null', 'null', 'null', '', '',
+      'null', 'Carrier3', 'null', 'null', 'null', 'null', '', '', '', '',
+      'null', 'Carrier4', 'null', 'null', 'Battleship1', 'null', 'null', 'null', 'null', 'null',
+      'null', 'Carrier5', 'null', 'null', 'Battleship2', 'null', 'null', 'Submarine1', 'Submarine2', 'Submarine3',
+      'null', 'null', 'null', 'null', 'Battleship3', 'null', 'null', 'null', 'null', 'null',
+      '', 'null', 'null', 'null', 'Battleship4', 'null', '', '', '', '',
+      '', 'null', 'Destroyer1', 'null', 'null', 'null', '', '', '', '',
+      '', 'null', 'Destroyer2', 'null', '', '', '', '', '', '',
+    ]
+  })
+})
+
+test("It's possible to add a ship after it got removed --- Cruiser", () => {
+  const newBoard = playerBoardFactory();
+  const {
+    removeShipFromBoard,
+    addShipToBoard, changeShipDirection
+  } = newBoard;
+  changeShipDirection();
+  addShipToBoard(59, "Carrier");
+  addShipToBoard(24, "Battleship");
+  changeShipDirection();
+  addShipToBoard(6, "Cruiser");
+  addShipToBoard(83, "Submarine");
+  addShipToBoard(1 ,"Destroyer");
+  removeShipFromBoard("Cruiser");
+  addShipToBoard(6, "Cruiser")
+  expect(newBoard).toMatchObject({
+    board: [
+      'null', 'Destroyer1', 'Destroyer2', 'null', '', 'null', 'Cruiser1', 'Cruiser2', 'Cruiser3', 'null',
+      'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null',
+      '', '', '', 'null', 'Battleship1', 'null', '', '', '', '',
+      '', '', '', 'null', 'Battleship2', 'null', '', '', '', '',
+      '', '', '', 'null', 'Battleship3', 'null', '', '', 'null', 'null',
+      '', '', '', 'null', 'Battleship4', 'null', '', '', 'null', 'Carrier1',
+      '', '', '', 'null', 'null', 'null', '', '', 'null', 'Carrier2',
+      '', '', 'null', 'null', 'null', 'null', 'null', '', 'null', 'Carrier3',
+      '', '', 'null', 'Submarine1', 'Submarine2', 'Submarine3', 'null', '', 'null', 'Carrier4',
+      '', '', 'null', 'null', 'null', 'null', 'null', '', 'null', 'Carrier5',
+    ]
+  })
+})
+
+test("It's possible to add a ship after it got removed --- Submarine", () => {
+  const newBoard = playerBoardFactory();
+  const {
+    removeShipFromBoard,
+    addShipToBoard, changeShipDirection
+  } = newBoard;
+  changeShipDirection();
+  addShipToBoard(17, "Carrier");
+  addShipToBoard(22, "Battleship");
+  changeShipDirection();
+  addShipToBoard(72, "Cruiser");
+  addShipToBoard(2, "Submarine");
+  addShipToBoard(97, "Destroyer");
+  removeShipFromBoard("Submarine");
+  addShipToBoard(2, "Submarine");
+  expect(newBoard).toMatchObject({
+    board: [
+      '', 'null', 'Submarine1', 'Submarine2', 'Submarine3', 'null', 'null', 'null', 'null', '',
+      '', 'null', 'null', 'null', 'null', 'null', 'null', 'Carrier1', 'null', '',
+      '', 'null', 'Battleship1', 'null', '', '', 'null', 'Carrier2', 'null', '',
+      '', 'null', 'Battleship2', 'null', '', '', 'null', 'Carrier3', 'null', '',
+      '', 'null', 'Battleship3', 'null', '', '', 'null', 'Carrier4', 'null', '',
+      '', 'null', 'Battleship4', 'null', '', '', 'null', 'Carrier5', 'null', '',
+      '', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', '',
+      '', 'null', 'Cruiser1', 'Cruiser2', 'Cruiser3', 'null', '', '', '', '',
+      '', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null',
+      '', '', '', '', '', '', 'null', 'Destroyer1', 'Destroyer2', 'null',
+    ]
+  })
+})
+
+test("It's possible to add a ship after it got removed --- Destroyer", () => {
+  const newBoard = playerBoardFactory();
+  const {
+    removeShipFromBoard,
+    addShipToBoard, changeShipDirection
+  } = newBoard;
+  addShipToBoard(93, "Carrier");
+  changeShipDirection();
+  addShipToBoard(7, "Battleship");
+  addShipToBoard(12, "Cruiser");
+  addShipToBoard(70, "Submarine");
+  changeShipDirection();
+  addShipToBoard(78, "Destroyer");
+  removeShipFromBoard("Destroyer");
+  addShipToBoard(78, "Destroyer");
+  expect(newBoard).toMatchObject({
+    board: [
+      '', 'null', 'null', 'null', '', '', 'null', 'Battleship1', 'null', '',
+      '', 'null', 'Cruiser1', 'null', '', '', 'null', 'Battleship2', 'null', '',
+      '', 'null', 'Cruiser2', 'null', '', '', 'null', 'Battleship3', 'null', '',
+      '', 'null', 'Cruiser3', 'null', '', '', 'null', 'Battleship4', 'null', '',
+      '', 'null', 'null', 'null', '', '', 'null', 'null', 'null', '',
+      '', '', '', '', '', '', '', '', '', '',
+      'null', 'null', '', '', '', '', '', 'null', 'null', 'null',
+      'Submarine1', 'null', '', '', '', '', '', 'null', 'Destroyer1', 'Destroyer2',
+      'Submarine2', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null',
+      'Submarine3', 'null', 'null', 'Carrier1', 'Carrier2', 'Carrier3', 'Carrier4', 'Carrier5', 'null', '',
+    ]
+  })
+})
+
+test("All ships get removed correctly", () => {
+  const newBoard = playerBoardFactory();
+  const {
+    removeShipFromBoard,
+    addShipToBoard, changeShipDirection
+  } = newBoard;
+  addShipToBoard(14, "Carrier");
+  addShipToBoard(65, "Battleship");
+  addShipToBoard(96, "Cruiser");
+  changeShipDirection();
+  addShipToBoard(0, "Submarine");
+  addShipToBoard(51, "Destroyer");
+  removeShipFromBoard("Carrier");
+  removeShipFromBoard("Battleship");
+  removeShipFromBoard("Cruiser");
+  removeShipFromBoard("Submarine");
+  removeShipFromBoard("Destroyer");
+  expect(newBoard).toMatchObject({
+    board: [
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '',
+    ]
+  })
+})
+
+test("It's possible to remove all ships then add them back again", () => {
+  const newBoard = playerBoardFactory();
+  const {
+    removeShipFromBoard,
+    addShipToBoard, changeShipDirection
+  } = newBoard;
+  addShipToBoard(41, "Carrier");
+  addShipToBoard(5, "Battleship");
+  changeShipDirection();
+  addShipToBoard(47, "Cruiser");
+  addShipToBoard(59, "Submarine");
+  addShipToBoard(70, "Destroyer");
+  removeShipFromBoard("Carrier");
+  removeShipFromBoard("Battleship");
+  removeShipFromBoard("Cruiser");
+  removeShipFromBoard("Submarine");
+  removeShipFromBoard("Destroyer");
+  changeShipDirection();
+  addShipToBoard(41, "Carrier")
+  addShipToBoard(5, "Battleship");
+  changeShipDirection();
+  addShipToBoard(47, "Cruiser");
+  addShipToBoard(59, "Submarine");
+  addShipToBoard(70, "Destroyer");
+  console.log(newBoard.board);
+  expect(newBoard).toMatchObject({
+    board: [
+      '', '', '', '', 'null', 'Battleship1', 'Battleship2', 'Battleship3', 'Battleship4', 'null',
+      '', '', '', '', 'null', 'null', 'null', 'null', 'null', 'null',
+      '', '', '', '', '', '', '', '', '', '',
+      'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', 'null', '',
+      'null', 'Carrier1', 'Carrier2', 'Carrier3', 'Carrier4', 'Carrier5', 'null', 'Cruiser1', 'null', 'null',
+      'null', 'null', 'null', 'null', 'null', 'null', 'null', 'Cruiser2', 'null', 'Submarine1',
+      'null', 'null', '', '', '', '', 'null', 'Cruiser3', 'null', 'Submarine2',
+      'Destroyer1', 'null', '', '', '', '', 'null', 'null', 'null', 'Submarine3',
+      'Destroyer2', 'null', '', '', '', '', '', '', 'null', 'null',
+      'null', 'null', '', '', '', '', '', '', '', '',
+    ]
+  })
+})
+
 test("Ships take hits correctly", () => {
   const newBoard = playerBoardFactory();
   newBoard.addShipToBoard(2, 'Destroyer');
@@ -441,25 +821,36 @@ test("Board tiles change when a ship is destroyed --- 8", () => {
 
 test("Battle is lost when all ships are taken down, ", () => {
   const newBoard = playerBoardFactory();
-  newBoard.shipsOnBoard.Carrier.addHit();
-  newBoard.shipsOnBoard.Carrier.addHit();
-  newBoard.shipsOnBoard.Carrier.addHit();
-  newBoard.shipsOnBoard.Carrier.addHit();
-  newBoard.shipsOnBoard.Carrier.addHit();
-  newBoard.shipsOnBoard.Battleship.addHit();
-  newBoard.shipsOnBoard.Battleship.addHit();
-  newBoard.shipsOnBoard.Battleship.addHit();
-  newBoard.shipsOnBoard.Battleship.addHit();
-  newBoard.shipsOnBoard.Submarine.addHit();
-  newBoard.shipsOnBoard.Submarine.addHit();
-  newBoard.shipsOnBoard.Submarine.addHit();
-  newBoard.shipsOnBoard.Cruiser.addHit();
-  newBoard.shipsOnBoard.Cruiser.addHit();
-  newBoard.shipsOnBoard.Cruiser.addHit();
-  newBoard.shipsOnBoard.Destroyer.addHit();
-  newBoard.shipsOnBoard.Destroyer.addHit();
-  newBoard.checkingForDefeat();
-  const isBattleLost = newBoard.checkingForDefeat();
+  const {
+    shipsOnBoard, checkingForDefeat,
+    addShipToBoard, changeShipDirection
+  } = newBoard;
+  addShipToBoard(5, "Carrier");
+  changeShipDirection();
+  addShipToBoard(12, "Battleship");
+  addShipToBoard(37, "Cruiser");
+  addShipToBoard(71, "Submarine");
+  changeShipDirection();
+  addShipToBoard(96, "Destroyer");
+  shipsOnBoard.Carrier.addHit();
+  shipsOnBoard.Carrier.addHit();
+  shipsOnBoard.Carrier.addHit();
+  shipsOnBoard.Carrier.addHit();
+  shipsOnBoard.Carrier.addHit();
+  shipsOnBoard.Battleship.addHit();
+  shipsOnBoard.Battleship.addHit();
+  shipsOnBoard.Battleship.addHit();
+  shipsOnBoard.Battleship.addHit();
+  shipsOnBoard.Submarine.addHit();
+  shipsOnBoard.Submarine.addHit();
+  shipsOnBoard.Submarine.addHit();
+  shipsOnBoard.Cruiser.addHit();
+  shipsOnBoard.Cruiser.addHit();
+  shipsOnBoard.Cruiser.addHit();
+  shipsOnBoard.Destroyer.addHit();
+  shipsOnBoard.Destroyer.addHit();
+  checkingForDefeat();
+  const isBattleLost = checkingForDefeat();
   expect(isBattleLost).toBe(true);
 })
 

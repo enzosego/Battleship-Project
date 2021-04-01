@@ -6,7 +6,7 @@ const LENGTH_MAPPING = {
   'Destroyer': 2
 }
 
-const shipFactory = (shipName, axis) => {
+const shipFactory = (shipName, axis, index) => {
   const length = LENGTH_MAPPING[shipName]
   let hits = 0;
   let isSunk = false;
@@ -17,7 +17,7 @@ const shipFactory = (shipName, axis) => {
     obj.hits++;
     setSunk();
   };
-  const obj = { shipName, length, hits, axis, isSunk, addHit };
+  const obj = { shipName, length, index, hits, axis, isSunk, addHit };
   return obj;
 };
 
