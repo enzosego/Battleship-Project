@@ -2,11 +2,10 @@ import React from "react"
 import uniqid from "uniqid";
 
 const classMapping = (tile, index, shipPreview) => {
-  console.log(index);
-  if (index === shipPreview[0])
-    return "preview-first";
-  if (index !== shipPreview[0] && shipPreview.includes(index))
-    return "preview-follow";
+  if (shipPreview.length === 1 && index === shipPreview[0])
+    return "preview-error";
+  if (shipPreview.includes(index))
+    return "preview-tile";
   if (tile.includes("hit")) 
     return "tile ship--hit";
   if (tile.includes("destroyed"))

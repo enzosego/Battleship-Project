@@ -30,6 +30,7 @@ export const App = () => {
   const [ whoLost, setWhoLost ] = useState(() => "");
   const [ shipCount, setShipCount ] = useState(() => 0);
   const [ shipPreview, setShipPreview ] = useState(() => []);
+  const [ availableSpaces, setAvailableSpaces ] = useState(() => []);
 
   useEffect(() => {
     const didPlayerLose = playerBoard.checkingForDefeat();
@@ -49,11 +50,21 @@ export const App = () => {
   }, [hasGameStarted])
 
   useEffect(() => {
-    const didPlayerLose = playerBoard.checkingForDefeat();
-    const didComputerLose = computerBoard.checkingForDefeat();
+    const didPlayerLose = 
+      playerBoard.checkingForDefeat();
+    const didComputerLose = 
+      computerBoard.checkingForDefeat();
     if (turn === "computer" && !didComputerLose && !didPlayerLose) 
-      setTimeout(handleComputerAttack, 1500);
+      setTimeout(handleComputerAttack, 1000);
   }, [turn])
+
+  useEffect(() => {
+    const shipName =
+      shipNameMap[shipCount];
+    const newSpaces = 
+      playerBoard.checkAvailableSpaces(shipName);
+    setAvailableSpaces(newSpaces);
+  }, [shipCount, verticalAxis]);
 
   const triggerGameStart = () => 
     setHasGameStarted(!hasGameStarted);
@@ -80,31 +91,31 @@ export const App = () => {
     setPlayerBoard(boardCopy);
   }
 
-  const isPositionViable = (index) => {
-    const shipName = shipNameMap[shipCount];
-    const availableSpaces = 
-      playerBoard.checkAvailableSpaces(shipName);
-    if (!availableSpaces.includes(index)) 
-      return false;
-    return true;
+  const isPositionViable = (index) => 
+    availableSpaces.includes(index)
+
+  const addPlayerShip = index => {
+    if (hasGameStarted === true) return;
+    if (!isPositionViable(index)) return;
+    const boardCopy = {...playerBoard};
+    boardCopy.addShipToBoard(index , shipNameMap[shipCount]);
+    setPlayerBoard(boardCopy);
+    setShipCount(prevValue => prevValue+=1)
   }
 
   const showShipPreview = (index) => {
     if (!isPositionViable(index)) {
-      setShipPreview([]);
+      setShipPreview([index]);
       return;
     }
     const shipLength = shipLengthMap[shipCount]-1;
     const newShipPreview = [];
-    if (verticalAxis) {
+    if (verticalAxis) 
       for (let i = index; i <= index+(shipLength*10); i+=10) 
         newShipPreview.push(i);
-    } else {
-      for (let i = index; i <= index+shipLength; i++) {
+    else 
+      for (let i = index; i <= index+shipLength; i++) 
         newShipPreview.push(i);
-        console.log(i);
-      }
-    }
     setShipPreview(newShipPreview);
   }
 
@@ -118,15 +129,6 @@ export const App = () => {
     boardCopy.removeShipFromBoard(shipToRemove);
     setPlayerBoard(boardCopy);
     setShipCount(prevValue => prevValue-1);
-  }
-
-  const addPlayerShip = index => {
-    if (hasGameStarted === true) return;
-    if (!isPositionViable(index)) return;
-    const boardCopy = {...playerBoard};
-    boardCopy.addShipToBoard(index , shipNameMap[shipCount]);
-    setPlayerBoard(boardCopy);
-    setShipCount(prevValue => prevValue+=1)
   }
 
   const sortComputerShips = () => {
