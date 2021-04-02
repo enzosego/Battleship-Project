@@ -81,28 +81,35 @@ export const App = () => {
   }
 
   const isPositionViable = (index) => {
-    const shipLength = shipLengthMap[shipCount]-1;
     const shipName = shipNameMap[shipCount];
     const availableSpaces = 
       playerBoard.checkAvailableSpaces(shipName);
-    if (!availableSpaces.includes(index)) return false;
+    if (!availableSpaces.includes(index)) 
+      return false;
     return true;
   }
 
   const showShipPreview = (index) => {
-    if (!isPositionViable(index)) return;
-    console.log("XD");
+    if (!isPositionViable(index)) {
+      setShipPreview([]);
+      return;
+    }
     const shipLength = shipLengthMap[shipCount]-1;
     const newShipPreview = [];
     if (verticalAxis) {
-      for (let i = index; i <= (shipLength*10); i+=10) 
+      for (let i = index; i <= index+(shipLength*10); i+=10) 
         newShipPreview.push(i);
     } else {
-      for (let i = index; i <= shipLength; i++)
+      for (let i = index; i <= index+shipLength; i++) {
         newShipPreview.push(i);
+        console.log(i);
+      }
     }
     setShipPreview(newShipPreview);
   }
+
+  const hideShipPreview = () => 
+    setShipPreview([]);
 
   const removeLastShip = () => {
     if (shipCount <= 0) return;
@@ -159,7 +166,8 @@ export const App = () => {
             computerBoard={computerBoard}
             removeLastShip={removeLastShip}
             shipPreview={shipPreview}
-            showShipPreview={showShipPreview}/>
+            showShipPreview={showShipPreview}
+            hideShipPreview={hideShipPreview}/>
         : <EndScreen 
             whoLost={whoLost}
             resetGame={resetGame}/>
