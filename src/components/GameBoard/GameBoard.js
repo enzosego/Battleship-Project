@@ -4,12 +4,13 @@ import { Computer } from "../Computer/Computer";
 
 export const GameBoard = ({triggerGameStart, hasGameStarted, switchShipAxis, verticalAxis,
   addPlayerShip, handlePlayerAttack, playerBoard, computerBoard, removeLastShip, shipPreview, 
-  showShipPreview, hideShipPreview}) => {
+  showShipPreview, hideShipPreview, randomlyAddPlayerShips}) => {
   return(
     <section className="game-board">
       <button onClick={triggerGameStart}>Start Game</button>
       <button onClick={switchShipAxis}>AXIS: {verticalAxis ? "Y" : "X"}</button>
       <button onClick={removeLastShip}>Remove ship</button>
+      <button onClick={randomlyAddPlayerShips}>Random Ships</button>
       <Player 
         playerBoard={playerBoard}
         addPlayerShip={addPlayerShip}

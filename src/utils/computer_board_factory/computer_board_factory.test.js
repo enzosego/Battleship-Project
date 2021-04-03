@@ -564,8 +564,6 @@ test("Available spaces get checked correctly - 10", () => {
   expect(availableSpaces.length).toEqual(56);
 })
 
-// Computer board gets randomly generated
-
 test("Computer board gets randomly generated", () => {
   const newBoard = computerBoardFactory();
   newBoard.randomlyAddShips();

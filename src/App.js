@@ -103,7 +103,18 @@ export const App = () => {
     setShipCount(prevValue => prevValue+=1)
   }
 
+  const randomlyAddPlayerShips = () => {
+    const boardCopy = {...playerBoard};
+    boardCopy.randomlyAddShips();
+    boardCopy.shipsOnBoard.Destroyer.axis === "Y"
+      ? setVerticalAxis(true)
+      : setVerticalAxis(false);
+    setPlayerBoard(boardCopy);
+    setShipCount(5);
+  }
+
   const showShipPreview = (index) => {
+    if (shipCount >= 5) return;
     if (!isPositionViable(index)) {
       setShipPreview([index]);
       return;
@@ -169,7 +180,8 @@ export const App = () => {
             removeLastShip={removeLastShip}
             shipPreview={shipPreview}
             showShipPreview={showShipPreview}
-            hideShipPreview={hideShipPreview}/>
+            hideShipPreview={hideShipPreview}
+            randomlyAddPlayerShips={randomlyAddPlayerShips}/>
         : <EndScreen 
             whoLost={whoLost}
             resetGame={resetGame}/>

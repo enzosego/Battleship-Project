@@ -19,7 +19,8 @@ const classMapping = (tile, index, shipPreview) => {
   return "tile";
 }
 
-export const Player = ({playerBoard, addPlayerShip, shipPreview, showShipPreview, hideShipPreview}) => {
+export const Player = ({playerBoard, addPlayerShip, shipPreview, 
+  showShipPreview, hideShipPreview}) => {
   const appendingTiles = () => {
     let count = -1;
     const { board } = playerBoard;

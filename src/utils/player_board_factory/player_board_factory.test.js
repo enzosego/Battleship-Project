@@ -213,6 +213,112 @@ test("Adds ship vertically at the bottom left of the board", () => {
   })
 })
 
+test("Available spaces get checked correctly - 1", () => {
+  const newBoard = playerBoardFactory();
+  newBoard.addShipToBoard(4, "Carrier");
+  newBoard.changeShipDirection();
+  newBoard.addShipToBoard(54, "Cruiser");
+  const availableSpaces = newBoard.checkAvailableSpaces("Carrier");
+  expect(availableSpaces.length).toEqual(34);
+})
+
+test("Available spaces get checked correctly - 2", () => {
+  const newBoard = playerBoardFactory();
+  newBoard.addShipToBoard(4, "Destroyer");
+  newBoard.changeShipDirection();
+  newBoard.addShipToBoard(54, "Battleship");
+  newBoard.changeShipDirection();
+  const availableSpaces = newBoard.checkAvailableSpaces("Battleship");
+  expect(availableSpaces.length).toEqual(20);
+})
+
+test("Available spaces get checked correctly - 3", () => {
+  const newBoard = playerBoardFactory();
+  newBoard.addShipToBoard(4, "Destroyer");
+  newBoard.changeShipDirection();
+  newBoard.addShipToBoard(54, "Battleship");
+  newBoard.changeShipDirection();
+  const availableSpaces = newBoard.checkAvailableSpaces("Cruiser");
+  expect(availableSpaces.length).toEqual(38);
+})
+
+test("Available spaces get checked correctly - 4", () => {
+  const newBoard = playerBoardFactory();
+  newBoard.addShipToBoard(7, "Destroyer");
+  newBoard.changeShipDirection();
+  newBoard.addShipToBoard(40, "Battleship");
+  newBoard.changeShipDirection();
+  const availableSpaces = newBoard.checkAvailableSpaces("Submarine");
+  expect(availableSpaces.length).toEqual(60);
+})
+
+test("Available spaces get checked correctly - 5", () => {
+  const newBoard = playerBoardFactory();
+  newBoard.addShipToBoard(7, "Destroyer");
+  newBoard.changeShipDirection();
+  newBoard.addShipToBoard(40, "Carrier");
+  newBoard.addShipToBoard(59, "Cruiser");
+  newBoard.changeShipDirection();
+  const availableSpaces = newBoard.checkAvailableSpaces("Destroyer");
+  expect(availableSpaces.length).toEqual(58);
+})
+
+test("Available spaces get checked correctly - 6", () => {
+  const newBoard = playerBoardFactory();
+  newBoard.addShipToBoard(4, "Carrier");
+  newBoard.changeShipDirection();
+  newBoard.addShipToBoard(54, "Cruiser");
+  newBoard.changeShipDirection();
+  const availableSpaces = newBoard.checkAvailableSpaces("Carrier");
+  expect(availableSpaces.length).toEqual(18);
+})
+
+test("Available spaces get checked correctly - 7", () => {
+  const newBoard = playerBoardFactory();
+  newBoard.addShipToBoard(4, "Destroyer");
+  newBoard.changeShipDirection();
+  newBoard.addShipToBoard(54, "Battleship");
+  const availableSpaces = newBoard.checkAvailableSpaces("Battleship");
+  expect(availableSpaces.length).toEqual(47);
+})
+
+test("Available spaces get checked correctly - 8", () => {
+  const newBoard = playerBoardFactory();
+  newBoard.addShipToBoard(4, "Destroyer");
+  newBoard.changeShipDirection();
+  newBoard.addShipToBoard(54, "Battleship");
+  const availableSpaces = newBoard.checkAvailableSpaces("Cruiser");
+  expect(availableSpaces.length).toEqual(54);
+})
+
+test("Available spaces get checked correctly - 9", () => {
+  const newBoard = playerBoardFactory();
+  newBoard.addShipToBoard(7, "Destroyer");
+  newBoard.changeShipDirection();
+  newBoard.addShipToBoard(40, "Battleship");
+  const availableSpaces = newBoard.checkAvailableSpaces("Submarine");
+  expect(availableSpaces.length).toEqual(58);
+})
+
+test("Available spaces get checked correctly - 10", () => {
+  const newBoard = playerBoardFactory();
+  newBoard.addShipToBoard(7, "Destroyer");
+  newBoard.changeShipDirection();
+  newBoard.addShipToBoard(40, "Carrier");
+  newBoard.addShipToBoard(59, "Cruiser");
+  const availableSpaces = newBoard.checkAvailableSpaces("Destroyer");
+  expect(availableSpaces.length).toEqual(56);
+})
+
+test("Player board gets randomly generated", () => {
+  const newBoard = playerBoardFactory();
+  newBoard.randomlyAddShips();
+  let count = 0;
+  newBoard.board.forEach(tile => 
+    tile !== "" ? count++ : "");
+  expect(count > 40).toBe(true);
+})
+
 test("Ship is removed correctly --- Carrier", () => {
   const newBoard = playerBoardFactory();
   const {

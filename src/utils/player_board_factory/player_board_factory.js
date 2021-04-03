@@ -154,6 +154,34 @@ const playerBoardFactory = () => {
     return availableSpaces;
   }
 
+  const changeDirectionRandomly = () => 
+    Math.random() > 0.5
+      ? changeShipDirection()
+      : "";
+
+  const pickRandomCoordinate = (num = 100) => 
+    Math.floor(Math.random() * num);
+
+  const addIndividualShip = (shipName) => {
+    changeDirectionRandomly();
+    let availableSpaces = checkAvailableSpaces(shipName);
+    if (availableSpaces.length === 0) {
+      obj.changeShipDirection();
+      availableSpaces = checkAvailableSpaces(shipName);
+    }
+    const randomIndex = pickRandomCoordinate(availableSpaces.length);
+    obj.addShipToBoard(availableSpaces[randomIndex], shipName);
+  }
+
+
+  const randomlyAddShips = () => {
+    addIndividualShip("Carrier");
+    addIndividualShip("Battleship");
+    addIndividualShip("Cruiser");
+    addIndividualShip("Submarine");
+    addIndividualShip("Destroyer");
+  }
+
   const checkingForDefeat = () => {
     let sunkShipsCount = 0;
     for (const [key, ship] of Object.entries(obj.shipsOnBoard)) 
@@ -163,9 +191,6 @@ const playerBoardFactory = () => {
       return true;
     return false;
   }
-
-  const pickRandomCoordinate = (num = 100) => 
-    Math.floor(Math.random() * num);
 
   const setShipAsDestroyed = (shipName) => {
     let {
@@ -384,6 +409,7 @@ const playerBoardFactory = () => {
     shipsOnBoard, 
     recieveAttack,
     addShipToBoard,
+    randomlyAddShips,
     removeShipFromBoard,
     checkAvailableSpaces,
     checkingForDefeat,
