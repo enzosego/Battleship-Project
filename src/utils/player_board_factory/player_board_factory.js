@@ -344,33 +344,26 @@ const playerBoardFactory = () => {
       attackedPositions, posiblePositions
     } = obj;
 
-    if (shipsOnBoard[shipToDestroy].hits > 3) {
-      for (let i = 0; i < board.length; i++) 
-        if (board[i].includes(`${shipToDestroy}`) && !attackedPositions.includes(i))
-          posiblePositions.push(i);
-      return;
-    }
-
     if (shipsOnBoard[shipToDestroy].hits > 1) {
-      const startIndex = board.indexOf(
-        board.find(tile => tile.includes(`${shipToDestroy}1`))
-      );
-      const shipLength = shipsOnBoard[shipToDestroy].length;
+      let firstHit;
+      let lastHit;
+      for (let i = 0; firstHit === undefined; i++)
+        if ( board[i].includes(shipToDestroy) && board[i].includes('hit'))
+          firstHit = i;
+      for (let i = 99; lastHit === undefined; i--)
+        if (board[i].includes(shipToDestroy) && board[i].includes('hit'))
+          lastHit = i;
       if (shipsOnBoard[shipToDestroy].axis == "X") {
-        for (let i = startIndex; i <= startIndex+shipLength && i < 100; i++) 
-          if (!attackedPositions.includes(i) && i % 10 != 0 && board[i] !== "") 
-            posiblePositions.push(i);
-        for (let i = startIndex+shipLength; i >= startIndex-1 && i > -1; i--) 
-          if (!attackedPositions.includes(i) && (i-9) % 10 != 0 && board[i] !== "") 
-            posiblePositions.push(i);
+        if (!attackedPositions.includes(firstHit-1) && firstHit % 10 !== 0)
+          posiblePositions.push(firstHit-1);
+        if (!attackedPositions.includes(lastHit+1) && (lastHit-9) % 10 !== 0)
+          posiblePositions.push(lastHit+1);
       }
       else {
-        for (let i = startIndex; i <= startIndex+(shipLength*10) && i < 100; i+=10) 
-          if (!attackedPositions.includes(i) && i > -1 && board[i] !== "") 
-            posiblePositions.push(i);
-        for (let i = startIndex+(shipLength*10); i >= startIndex-10 && i > -1; i-=10) 
-          if (!attackedPositions.includes(i) && i < 100 && board[i] !== "") 
-            posiblePositions.push(i);
+        if (!attackedPositions.includes(firstHit-10) && firstHit-10 > -1)
+          posiblePositions.push(firstHit-10);
+        if (!attackedPositions.includes(lastHit+10) && lastHit+10 < 100)
+          posiblePositions.push(lastHit+10);
       }
       return;
     }
