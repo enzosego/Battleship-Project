@@ -3,7 +3,7 @@ import { Player } from "../Player/Player";
 import { Computer } from "../Computer/Computer";
 
 export const GameBoard = ({triggerGameStart, hasGameStarted, switchShipAxis, verticalAxis,
-  addPlayerShip, handlePlayerAttack, playerBoard, computerBoard, removeLastShip, shipPreview, 
+  addPlayerShip, handlePlayerAttack, playerBoard, computerBoard, removeLastShip,
   showShipPreview, hideShipPreview, randomlyAddPlayerShips}) => {
   return(
     <section className="game-board">
@@ -14,7 +14,6 @@ export const GameBoard = ({triggerGameStart, hasGameStarted, switchShipAxis, ver
       <Player 
         playerBoard={playerBoard}
         addPlayerShip={addPlayerShip}
-        shipPreview={shipPreview}
         showShipPreview={showShipPreview}
         hideShipPreview={hideShipPreview}/>
       {hasGameStarted === false

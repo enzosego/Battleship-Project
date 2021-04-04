@@ -29,7 +29,6 @@ export const App = () => {
   const [ verticalAxis, setVerticalAxis ] = useState(() => false);
   const [ whoLost, setWhoLost ] = useState(() => "");
   const [ shipCount, setShipCount ] = useState(() => 0);
-  const [ shipPreview, setShipPreview ] = useState(() => []);
   const [ availableSpaces, setAvailableSpaces ] = useState(() => []);
 
   useEffect(() => {
@@ -115,25 +114,44 @@ export const App = () => {
     setShipCount(5);
   }
 
-  const showShipPreview = (index) => {
+  const showShipPreview = (e) => {
     if (shipCount >= 5) return;
+    const index = +e.target.id;
     if (!isPositionViable(index)) {
-      setShipPreview([index]);
+      e.target.style.backgroundColor = "red";
       return;
     }
     const shipLength = shipLengthMap[shipCount]-1;
-    const newShipPreview = [];
     if (verticalAxis) 
       for (let i = index; i <= index+(shipLength*10); i+=10) 
-        newShipPreview.push(i);
+        document.getElementById(`${i}`)
+          .style.backgroundColor = "#00b4d8";
     else 
       for (let i = index; i <= index+shipLength; i++) 
-        newShipPreview.push(i);
-    setShipPreview(newShipPreview);
+        document.getElementById(`${i}`)
+          .style.backgroundColor = "#00b4d8";
   }
 
-  const hideShipPreview = () => 
-    setShipPreview([]);
+  const hideShipPreview = (e) => {
+    if (shipCount >= 5) return;
+    const index = +e.target.id;
+    if (!isPositionViable(index)) {
+      if (playerBoard.board[index].length <= 4)
+        e.target.style.backgroundColor = "#fff";
+      else
+        e.target.style.backgroundColor = "green";
+      return;
+    }
+    const shipLength = shipLengthMap[shipCount]-1;
+    if (verticalAxis) 
+      for (let i = index; i <= index+(shipLength*10); i+=10) 
+        document.getElementById(`${i}`)
+          .style.backgroundColor = "#fff";
+    else 
+      for (let i = index; i <= index+shipLength; i++) 
+        document.getElementById(`${i}`)
+          .style.backgroundColor = "#fff";
+  }
 
   const removeLastShip = () => {
     if (shipCount <= 0) return;
@@ -187,7 +205,6 @@ export const App = () => {
             playerBoard={playerBoard}
             computerBoard={computerBoard}
             removeLastShip={removeLastShip}
-            shipPreview={shipPreview}
             showShipPreview={showShipPreview}
             hideShipPreview={hideShipPreview}
             randomlyAddPlayerShips={randomlyAddPlayerShips}/>

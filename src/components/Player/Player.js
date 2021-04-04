@@ -1,11 +1,7 @@
 import React from "react"
 import uniqid from "uniqid";
 
-const classMapping = (tile, index, shipPreview) => {
-  if (shipPreview.length === 1 && index === shipPreview[0])
-    return "preview-error";
-  if (shipPreview.includes(index))
-    return "preview-tile";
+const classMapping = (tile) => {
   if (tile.includes("hit")) 
     return "tile ship--hit";
   if (tile.includes("destroyed"))
@@ -19,24 +15,24 @@ const classMapping = (tile, index, shipPreview) => {
   return "tile";
 }
 
-export const Player = ({playerBoard, addPlayerShip, shipPreview, 
+export const Player = ({playerBoard, addPlayerShip, 
   showShipPreview, hideShipPreview}) => {
   const appendingTiles = () => {
     let count = -1;
     const { board } = playerBoard;
     return board.map(tile => 
       <div 
-        className={classMapping(tile, count+=1, shipPreview)}
-        id={count}
+        className={classMapping(tile)}
+        id={count+=1}
         onClick={e => addPlayerShip(+e.target.id)}
-        onMouseEnter={(e) => showShipPreview(+e.target.id)}
+        onMouseEnter={showShipPreview}
+        onMouseOut={hideShipPreview}
         key={uniqid()}>
       </div>)
   }
 
   return(
     <section 
-      onMouseOut={hideShipPreview} 
       className="player-board">
       <section className="board-grid">
         {appendingTiles()}
