@@ -118,16 +118,19 @@ const playerBoardFactory = () => {
   }
 
   const checkAvailableSpaces = (shipName) => {
+    const {
+      board, verticalShip
+    } = obj;
     const shipLength = lengthMapping[shipName];
     let availableSpaces = [];
-    if (obj.verticalShip) 
-      for (let i = 0; i < obj.board.length; i++) {
+    if (verticalShip) 
+      for (let i = 0; i < board.length; i++) {
         if (i + (shipLength*10) > 109)
           continue
-        if (obj.board[i] === "") {
+        if (board[i] === "") {
           let count = 1;
           for (let j = i+10; j < ((shipLength) * 10)+i; j+=10) {
-            if (obj.board[j] === "") 
+            if (board[j] === "") 
               count++;
             else break;
           }
@@ -136,12 +139,12 @@ const playerBoardFactory = () => {
         }
       }
     else {
-      for (let i = 0; i < obj.board.length; i++) {
+      for (let i = 0; i < 100; i++) {
         const strNum = `${i}`;
-        if (obj.board[i] === "" && (strNum[1] < 11-shipLength || strNum < 11-shipLength)) {
+        if (board[i] === "" && (strNum[1] < 11-shipLength || strNum < 11-shipLength)) {
           let count = 1;
           for (let j = i+1; j < (shipLength)+i; j++) {
-            if (obj.board[j] === "") {
+            if (board[j] === "") {
               count++;
             }
             else break;
@@ -182,13 +185,15 @@ const playerBoardFactory = () => {
     addIndividualShip("Destroyer");
   }
 
-  const checkingForDefeat = () => {
+  const checkingForDefeat = (returnCount) => {
     let sunkShipsCount = 0;
     for (const [key, ship] of Object.entries(obj.shipsOnBoard)) 
       if (ship.isSunk) 
         sunkShipsCount++;
     if (sunkShipsCount >= 5) 
       return true;
+    if (returnCount)
+      return sunkShipsCount;
     return false;
   }
 
@@ -197,7 +202,7 @@ const playerBoardFactory = () => {
       board, shipsOnBoard,
       attackedPositions
     } = obj;
-    const shipLength = shipsOnBoard[shipName].length;
+    const shipLength = lengthMapping[shipName];
     const startIndex = board.indexOf(
       board.find(tile => tile.includes(`${shipName}1`))
     );
@@ -329,11 +334,35 @@ const playerBoardFactory = () => {
     obj.posiblePositions = [];
   }
 
+  const checkImposiblePositions = () => {
+    const { attackedPositions } = obj;
+    const imposiblePositions = [];
+    for (let i = 0; i < 100; i++) {
+      if (attackedPositions.includes(i)) 
+        continue;
+      let count = 0;
+      if (i % 10 === 0 || attackedPositions.includes(i-1))
+        count++;
+      if ((i-9) % 10 === 0 || attackedPositions.includes(i+1))
+        count++;
+      if (i-10 < 0 || attackedPositions.includes(i-10))
+        count++;
+      if (i+10 > 100 || attackedPositions.includes(i+10))
+        count++;
+      if (count >= 4)
+        imposiblePositions.push(i);
+    }
+    return imposiblePositions;
+  }
+
   const computerRandomAttack = () => {
-    const { recieveAttack, attackedPositions } = obj;
+    let { 
+      recieveAttack, attackedPositions,
+    } = obj;
+    const imposiblePositions = checkImposiblePositions();
     let newCoordinate = 
       pickRandomCoordinate();
-    while (attackedPositions.includes(newCoordinate)) 
+    while (attackedPositions.includes(newCoordinate) || imposiblePositions.includes(newCoordinate)) 
       newCoordinate  = pickRandomCoordinate();
     recieveAttack(newCoordinate);
   }
