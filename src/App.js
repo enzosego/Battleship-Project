@@ -66,8 +66,10 @@ export const App = () => {
     setAvailableSpaces(newSpaces);
   }, [shipCount, verticalAxis]);
 
-  const triggerGameStart = () => 
-    setHasGameStarted(!hasGameStarted);
+  const triggerGameStart = () => {
+    if (shipCount >= 5)
+      setHasGameStarted(!hasGameStarted);
+  }
 
   const resetGame = () => {
     setHasGameStarted(false);
