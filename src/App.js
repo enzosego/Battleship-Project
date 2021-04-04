@@ -152,10 +152,17 @@ export const App = () => {
 
   const handlePlayerAttack = index => {
     if (turn === "computer") return;
-    const didPlayerLose = playerBoard.checkingForDefeat();
+    const didPlayerLose = 
+      playerBoard.checkingForDefeat();
     if (didPlayerLose) return;
-    switchTurn();
     let boardCopy = {...computerBoard};
+    const { board } = boardCopy;
+    if (board[index].includes("miss") 
+      || board[index].includes("sunk") 
+      || board[index].includes("destroyed")
+      || board[index].includes("hit"))
+      return;
+    switchTurn();
     boardCopy.recieveAttack(index);
     setComputerBoard(boardCopy);
   }
