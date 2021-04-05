@@ -360,6 +360,7 @@ const playerBoardFactory = () => {
       recieveAttack, attackedPositions,
     } = obj;
     const imposiblePositions = checkImposiblePositions();
+    console.log(imposiblePositions);
     let newCoordinate = 
       pickRandomCoordinate();
     while (attackedPositions.includes(newCoordinate) || imposiblePositions.includes(newCoordinate)) 
@@ -403,10 +404,10 @@ const playerBoardFactory = () => {
     if (lastHitIndex-10 >= 0)
       if (!attackedPositions.includes(lastHitIndex-10)) 
         posiblePositions.push(lastHitIndex-10);
-    if (lastHitIndex+1 < 100 && lastHitIndex-9 % 10 !== 0)
+    if ((lastHitIndex-9) % 10 !== 0)
       if (!attackedPositions.includes(lastHitIndex+1)) 
         posiblePositions.push(lastHitIndex+1);
-    if (lastHitIndex-1 >= 0 && lastHitIndex % 10 !== 0)
+    if (lastHitIndex % 10 !== 0)
       if (!attackedPositions.includes(lastHitIndex-1)) 
         posiblePositions.push(lastHitIndex-1);
   }

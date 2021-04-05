@@ -965,6 +965,7 @@ test("Battle is lost when all ships are taken down, ", () => {
 test("Computer launches random attack", () => {
   const newBoard = playerBoardFactory();
   newBoard.addShipToBoard(2, "Cruiser");
+  newBoard.addShipToBoard(55, "Destroyer");
   newBoard.computerAttack();
   newBoard.computerAttack();
   newBoard.computerAttack();
