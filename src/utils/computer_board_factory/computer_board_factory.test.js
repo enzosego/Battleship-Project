@@ -1,4 +1,4 @@
-const computerBoardFactory = require('./computer_board_factory');
+import { computerBoardFactory } from "./computer_board_factory";
 
 test("Factory creates the board", () => {
   const newBoard = computerBoardFactory();

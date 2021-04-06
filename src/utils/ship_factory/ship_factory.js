@@ -1,12 +1,11 @@
-const LENGTH_MAPPING = {
-  'Carrier': 5,
-  'Battleship': 4,
-  'Cruiser': 3,
-  'Submarine': 3,
-  'Destroyer': 2
-}
-
 const shipFactory = (shipName, axis, index) => {
+  const LENGTH_MAPPING = {
+    'Carrier': 5,
+    'Battleship': 4,
+    'Cruiser': 3,
+    'Submarine': 3,
+    'Destroyer': 2
+  }
   const length = LENGTH_MAPPING[shipName]
   let hits = 0;
   let isSunk = false;

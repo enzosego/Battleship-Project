@@ -1,4 +1,4 @@
-const playerBoardFactory = require('./player_board_factory');
+import { playerBoardFactory } from "./player_board_factory";
 
 test("Factory creates the board", () => {
   const newBoard = playerBoardFactory();

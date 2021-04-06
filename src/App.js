@@ -3,9 +3,9 @@ import { GameBoard } from "./components/GameBoard/GameBoard";
 import { EndScreen } from "./components/EndScreen/EndScreen";
 import { Header } from "./components/Header/Header";
 import { Footer } from "./components/Footer/Footer";
+import { playerBoardFactory } from "./utils/player_board_factory/player_board_factory"
+import { computerBoardFactory } from "./utils/computer_board_factory/computer_board_factory"
 import "./App.scss";
-const playerBoardFactory = require('./utils/player_board_factory/player_board_factory');
-const computerBoardFactory = require('./utils/computer_board_factory/computer_board_factory');
 
 const shipNameMap = {
   0: "Carrier",

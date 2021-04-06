@@ -1,6 +1,6 @@
 const shipFactory = require('../ship_factory/ship_factory');
 
-const computerBoardFactory = () => {
+export const computerBoardFactory = () => {
   let board = [
     '', '', '', '', '', '', '', '', '', '',
     '', '', '', '', '', '', '', '', '', '',
@@ -328,5 +328,3 @@ const computerBoardFactory = () => {
   };
   return obj;
 }
-
-module.exports = computerBoardFactory;
