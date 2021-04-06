@@ -1,4 +1,4 @@
-const shipFactory = require('../ship_factory/ship_factory');
+import { shipFactory } from "../ship_factory/ship_factory";
 
 export const computerBoardFactory = () => {
   let board = [

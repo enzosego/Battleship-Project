@@ -1,6 +1,7 @@
-const shipFactory = require('./ship_factory');
+import { shipFactory } from "./ship_factory.js";
 
 test("Ship factory works", () => {
+  console.log(typeof shipFactory);
   const newShip = shipFactory('Carrier', "X", 5);
   expect(newShip).toMatchObject({
     shipName: 'Carrier',

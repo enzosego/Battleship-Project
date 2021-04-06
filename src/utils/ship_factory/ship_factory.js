@@ -1,4 +1,4 @@
-const shipFactory = (shipName, axis, index) => {
+export const shipFactory = (shipName, axis, index) => {
   const LENGTH_MAPPING = {
     'Carrier': 5,
     'Battleship': 4,
@@ -19,5 +19,3 @@ const shipFactory = (shipName, axis, index) => {
   const obj = { shipName, length, index, hits, axis, isSunk, addHit };
   return obj;
 };
-
-module.exports = shipFactory;
