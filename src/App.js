@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { GameBoard } from "./components/GameBoard/GameBoard";
 import { EndScreen } from "./components/EndScreen/EndScreen";
+import { Header } from "./components/Header/Header";
+import { Footer } from "./components/Footer/Footer";
 import "./App.scss";
 const playerBoardFactory = require('./utils/player_board_factory/player_board_factory');
 const computerBoardFactory = require('./utils/computer_board_factory/computer_board_factory');
@@ -66,7 +68,7 @@ export const App = () => {
   }, [shipCount, verticalAxis]);
 
   const triggerGameStart = () => {
-    if (shipCount >= 5)
+    if (shipCount >= 5 && !hasGameStarted)
       setHasGameStarted(!hasGameStarted);
   }
 
@@ -137,20 +139,20 @@ export const App = () => {
     const index = +e.target.id;
     if (!isPositionViable(index)) {
       if (playerBoard.board[index].length <= 4)
-        e.target.style.backgroundColor = "#fff";
+        e.target.style.backgroundColor = "rgb(30, 30, 30)";
       else
-        e.target.style.backgroundColor = "green";
+        e.target.style.backgroundColor = "#3E78B2";
       return;
     }
     const shipLength = shipLengthMap[shipCount]-1;
     if (verticalAxis) 
       for (let i = index; i <= index+(shipLength*10); i+=10) 
         document.getElementById(`${i}`)
-          .style.backgroundColor = "#fff";
+          .style.backgroundColor = "rgb(30, 30, 30)";
     else 
       for (let i = index; i <= index+shipLength; i++) 
         document.getElementById(`${i}`)
-          .style.backgroundColor = "#fff";
+          .style.backgroundColor = "rgb(30, 30, 30)";
   }
 
   const removeLastShip = () => {
@@ -195,23 +197,33 @@ export const App = () => {
   return (
     <section className="App">
       {whoLost === ""
+        ?<Header 
+          triggerGameStart={triggerGameStart}
+          resetGame={resetGame}
+          switchShipAxis={switchShipAxis}
+          verticalAxis={verticalAxis}
+          removeLastShip={removeLastShip}
+          randomlyAddPlayerShips={randomlyAddPlayerShips}
+          hasGameStarted={hasGameStarted}/>
+        : ""
+      }
+      {whoLost === ""
         ? <GameBoard 
-            triggerGameStart={triggerGameStart}
             hasGameStarted={hasGameStarted}
-            switchShipAxis={switchShipAxis}
-            verticalAxis={verticalAxis}
             addPlayerShip={addPlayerShip}
             handlePlayerAttack={handlePlayerAttack}
             playerBoard={playerBoard}
             computerBoard={computerBoard}
-            removeLastShip={removeLastShip}
             showShipPreview={showShipPreview}
             hideShipPreview={hideShipPreview}
-            randomlyAddPlayerShips={randomlyAddPlayerShips}/>
+          />
         : <EndScreen 
             whoLost={whoLost}
             resetGame={resetGame}/>
       }
+      {whoLost === ""
+        ?<Footer />
+        : ""}
     </section>
   );
 };

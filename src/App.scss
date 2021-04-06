@@ -6,26 +6,90 @@
           box-sizing: 0;
 }
 
+@import '../node_modules/include-media/dist/include-media';
+
 body {
   font-family: "Poppins";
+  background: rgb(30, 30, 30);
+}
+
+header {
+  width: 50%;
+  margin: auto;
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+
+  @include media("<desktop") {
+    width: 70%;
+    .switch-axis-btn, .remove-ship-btn {
+      display: none;
+    }
+  }
+}
+
+button {
+  padding: 10px;
+  background: #3E78B2;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  &:active {
+    transform: scale(.99);
+  }
+}
+
+.game-board {
+  margin-top: 30px;
+  color: rgb(210, 210, 210);
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  text-align: center;
+  font-size: 1.6rem;
+  @include media(">1600px") {
+    font-size: 2.5rem;
+  }
+  @include media("<desktop") {
+    flex-direction: column;
+  }
 }
 
 .board-grid {
   margin: auto;
-  margin-top: 50px;
-  width: 450px;
-  height: 450px;
+  margin-top: 20px;
+  width: 400px;
+  height: 400px;
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   grid-gap: 0;
+  @include media(">1600px") {
+    margin-top: 35px;
+    height: 650px;
+    width: 650px;
+  }
+  @include media("<desktop") {
+    margin-top: 10px;
+  }
+  @include media("<600px") {
+    height: 92vw;
+    width: 92vw;
+  }
+  &.--hover {
+    cursor: pointer;
+  }
 }
 
 .tile {
-  border: 1px solid black;
+  border: 1px solid rgb(210, 210, 210);
 }
 
 .miss {
-  background: grey;
+  background: rgb(80, 80, 80);
 }
 
 .ship {
@@ -40,18 +104,8 @@ body {
   }
 
   &--sunk {
-    background: black;
+    background: rgb(80, 80, 80);
   }
-}
-
-.preview-tile {
-  background: green;
-  border: 1px solid black;
-}
-
-.preview-error {
-  background: red;
-  border: 1px solid black;
 }
 
 .end {
@@ -61,6 +115,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
   font-size: 1.5rem;
   font-weight: 700;
   color: white;
@@ -79,6 +134,19 @@ body {
   }
 }
 
-button {
-  font-size: 2.4rem;
+footer {
+  margin-top: 70px;
+  margin-bottom: 20px;
+  width: 100%;
+  text-align: center;
+  color: white;
+  a {
+    margin-left: 6px;
+    margin-right: 6px;
+    color: #3E78B2;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }

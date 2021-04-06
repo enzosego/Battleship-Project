@@ -16,7 +16,7 @@ const classMapping = (tile) => {
 }
 
 export const Player = ({playerBoard, addPlayerShip, 
-  showShipPreview, hideShipPreview}) => {
+  showShipPreview, hideShipPreview, hasGameStarted}) => {
   const appendingTiles = () => {
     let count = -1;
     const { board } = playerBoard;
@@ -34,7 +34,8 @@ export const Player = ({playerBoard, addPlayerShip,
   return(
     <section 
       className="player-board">
-      <section className="board-grid">
+      <h1>{hasGameStarted ? 'You' : 'Place your ships, ready for battle!'}</h1>
+      <section className={hasGameStarted ? "board-grid" : "board-grid --hover"}>
         {appendingTiles()}
       </section>
     </section>
