@@ -141,7 +141,7 @@ export const App = () => {
       if (playerBoard.board[index].length <= 4)
         e.target.style.backgroundColor = "rgb(30, 30, 30)";
       else
-        e.target.style.backgroundColor = "#3E78B2";
+        e.target.style.backgroundColor = "green";
       return;
     }
     const shipLength = shipLengthMap[shipCount]-1;
